@@ -7,7 +7,7 @@
 <style>
 html, body {
   margin:0; padding:0;
-  font-family:'Comic Sans MS', cursive;
+  font-family:'Comic Sans MS';
   min-height:100vh;
   overflow-x:hidden;
   background: linear-gradient(135deg,#ffccd9,#ffe6f0,#ffc0cb);
@@ -186,23 +186,29 @@ button:hover{
     width:100%;
     max-width:100%;
     margin:20px 0;
-    padding:40px 30px;
+    padding:50px 35px;
   }
-  .person img{width:200px; height:200px;}
-  button{font-size:20px; padding:18px 40px;}
+  .person img{width:220px; height:220px;}
+  button{font-size:20px; padding:20px 45px;}
   #totalMisses{
-    font-size:24px;
+    font-size:26px;
     width:95%;
-    padding:25px;
+    padding:30px;
     margin-bottom:30px;
   }
   .notebook-container{flex-direction:column; align-items:center;}
-  .notebook{width:90%; max-height:450px; margin-bottom:25px; padding:30px;}
+  .notebook{width:90%; max-height:450px; margin-bottom:25px; padding:35px;}
 
   /* Bigger sparkles on mobile */
   .sparkle{
-    width:14px;
-    height:14px;
+    width:18px;
+    height:18px;
+  }
+
+  /* Prevent scrolling on mobile */
+  body, html{
+    overflow:hidden;
+    touch-action:none;
   }
 }
 </style>
@@ -310,15 +316,19 @@ function createTrailSparkle(x,y){
   const trail=document.createElement('div'); trail.className='sparkle';
   trail.style.left=x+'px';
   trail.style.top=y+'px';
-  trail.style.width = window.innerWidth <= 500 ? '14px' : '6px';
-  trail.style.height = window.innerWidth <= 500 ? '14px' : '6px';
+  trail.style.width = window.innerWidth <= 500 ? '18px' : '6px';
+  trail.style.height = window.innerWidth <= 500 ? '18px' : '6px';
   trail.style.opacity='0.8';
   trail.style.transition='transform 0.5s, opacity 0.5s';
   trail.style.zIndex=10;
   document.body.appendChild(trail);
   setTimeout(()=>trail.remove(),500);
 }
+
+// Mouse move for desktop
 document.addEventListener('mousemove', e=>{ createTrailSparkle(e.clientX, e.clientY); });
+
+// Touch move for mobile
 document.addEventListener('touchmove', e=>{ 
   const t=e.touches[0]; 
   createTrailSparkle(t.clientX, t.clientY);
