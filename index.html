@@ -8,25 +8,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
   <style>
-  body {
-  font-family: 'Comic Sans MS', cursive;
-  text-align: center;
-  padding: 30px;
-  overflow-x: hidden;
-  background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
-  background-size: 600% 600%;
-  animation: gradientShift 15s ease infinite;
-}
+    /* Body with cute pink gradient */
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden;
+    }
 
-@keyframes gradientShift {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
+    /* Sparkles behind content (angular) */
+    .sparkle {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #ff4c8a; /* dark pink */
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* diamond shape */
+      opacity: 0.8;
+      pointer-events: none;
+      animation: sparkleMove 3s linear infinite;
+      box-shadow: 0 0 6px #ff4c8a, 0 0 12px #ff7bac;
+      z-index: 0; /* behind content */
+    }
 
-    /* Heading box with pulse animation */
+    @keyframes sparkleMove {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(-50px) scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* Content container above sparkles */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Heading box */
     .heading-box {
-      background: #ff5c8a; /* dark pink box */
+      background: #ff5c8a; /* dark pink */
       display: inline-block;
       padding: 20px 30px;
       border-radius: 20px;
@@ -41,7 +69,7 @@
     }
 
     .heading-box h1 {
-      font-family: 'Dancing Script', cursive; /* cute font */
+      font-family: 'Dancing Script', cursive;
       color: #ffffff; /* white text */
       font-size: 36px;
       margin: 0;
@@ -107,45 +135,6 @@
       margin-bottom: 5px;
     }
 
-    /* Rounded scrollbar */
-    ul::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ul::-webkit-scrollbar-thumb {
-      background: #ff8fab;
-      border-radius: 10px;
-    }
-
-    /* Sparkle container */
-.sparkle {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  pointer-events: none;
-  animation: sparkleMove 3s linear infinite;
-  box-shadow: 0 0 8px white, 0 0 15px pink;
-}
-
-@keyframes sparkleMove {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateY(-50px) scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px) scale(1);
-    opacity: 0;
-  }
-}
-
-
     /* Heart/confetti animation */
     .heart {
       position: absolute;
@@ -168,45 +157,45 @@
 </head>
 <body>
 
-  <!-- Heading -->
-  <div class="heading-box">
-    <h1>Pachuttan + Hannu = WWE Wrestlemania 🫶💌</h1>
-  </div>
+  <!-- Sparkles will be added by JS -->
 
-  <!-- Pachu Section -->
-  <div class="person">
-    <img src="bubuu.jpg" alt="Pachu">
-    <h2>Pachu 🐥</h2>
-    <p>Times missed: <span id="countPachu">0</span></p>
-    <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
-    <ul id="listPachu"></ul>
-  </div>
+  <div class="content">
+    <!-- Heading -->
+    <div class="heading-box">
+      <h1>Pachuttan + Hannu = WWE Wrestlemania 🫶💌</h1>
+    </div>
 
-  <!-- Hannu Section -->
-  <div class="person">
-    <img src="dudu.jpg" alt="Hannu">
-    <h2>Hannu 🐻</h2>
-    <p>Times missed: <span id="countHannu">0</span></p>
-    <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
-    <ul id="listHannu"></ul>
+    <!-- Pachu Section -->
+    <div class="person">
+      <img src="bubuu.jpg" alt="Pachu">
+      <h2>Pachu 🐥</h2>
+      <p>Times missed: <span id="countPachu">0</span></p>
+      <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
+      <ul id="listPachu"></ul>
+    </div>
+
+    <!-- Hannu Section -->
+    <div class="person">
+      <img src="dudu.jpg" alt="Hannu">
+      <h2>Hannu 🐻</h2>
+      <p>Times missed: <span id="countHannu">0</span></p>
+      <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
+      <ul id="listHannu"></ul>
+    </div>
   </div>
 
   <script>
-    // Load data from localStorage
+    // Load/save reasons
     function loadData(name) {
       return JSON.parse(localStorage.getItem("miss_" + name)) || [];
     }
-
-    // Save data to localStorage
     function saveData(name, data) {
       localStorage.setItem("miss_" + name, JSON.stringify(data));
     }
 
-    // Render counts and reason lists
     function render(name) {
       const data = loadData(name);
       document.getElementById("count" + name).innerText = data.length;
-
       const list = document.getElementById("list" + name);
       list.innerHTML = "";
       data.forEach(item => {
@@ -216,12 +205,10 @@
       });
     }
 
-    // Add reason & show hearts
     function addReason(name, button) {
       const reason = prompt(`Why do you miss them? 💕`);
       if (!reason) return;
 
-      // Add date & time
       const now = new Date().toLocaleString();
       const entry = `${reason} (${now})`;
 
@@ -230,50 +217,39 @@
       saveData(name, data);
       render(name);
 
-      // Trigger multiple hearts/confetti
+      // Multiple hearts/confetti
       for (let i = 0; i < 5; i++) {
         createHeart(button);
       }
     }
 
-    // Heart animation function
     function createHeart(button) {
       const heart = document.createElement("span");
       heart.className = "heart";
-
-      // Random heart emoji
       const hearts = ["💖","💗","💘","💞","💕"];
       heart.innerText = hearts[Math.floor(Math.random()*hearts.length)];
-
       const x = Math.random() * (button.offsetWidth - 20);
       heart.style.left = `${x}px`;
       heart.style.top = `-10px`;
-
       button.appendChild(heart);
-
       setTimeout(() => heart.remove(), 1000);
     }
 
     // Initial render
     render("Pachu");
     render("Hannu");
+
+    // Create sparkles
+    const sparkleCount = 30;
+    for (let i = 0; i < sparkleCount; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * window.innerWidth + 'px';
+      sparkle.style.top = Math.random() * window.innerHeight + 'px';
+      sparkle.style.animationDelay = (Math.random() * 5) + 's';
+      document.body.appendChild(sparkle);
+    }
   </script>
-  
-<script>
-  const sparkleCount = 30; // number of sparkles
-
-  for (let i = 0; i < sparkleCount; i++) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-
-    // random starting position
-    sparkle.style.left = Math.random() * window.innerWidth + 'px';
-    sparkle.style.top = Math.random() * window.innerHeight + 'px';
-    sparkle.style.animationDelay = (Math.random() * 5) + 's'; // stagger animation
-
-    document.body.appendChild(sparkle);
-  }
-</script>
 
 </body>
 </html>
