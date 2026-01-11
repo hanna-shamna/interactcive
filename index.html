@@ -28,7 +28,7 @@
       background: #ff4c8a;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
       opacity: 0.8;
-      pointer-events: none; /* Allows scrolling */
+      pointer-events: none;
       animation: sparkleMove 3s linear infinite;
       box-shadow: 0 0 6px #ff4c8a, 0 0 12px #ff7bac;
       z-index: 0;
@@ -60,20 +60,26 @@
       margin: 0;
     }
 
-  #totalMisses {
-  font-family: 'Comic Sans MS', cursive;
-  color: #fff;
-  background: #ff85ab;
-  display: block;             /* makes it occupy its own line */
-  width: 250px;               /* smaller width */
-  margin: 10px auto 30px auto; /* centers it below heading */
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-size: 18px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  text-align: center;         /* text centered inside */
-}
+    /* --- Total Missed --- */
+    #totalMisses {
+      font-family: 'Comic Sans MS', cursive;
+      color: #fff;
+      background: #ff85ab;
+      display: block;
+      width: 250px;                 
+      margin: 15px auto 30px auto;  
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      animation: pulseBox 2s infinite;
+    }
 
+    @keyframes pulseBox {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
 
     /* --- Person Cards --- */
     .person {
@@ -126,7 +132,7 @@
       animation: floatUp 1s ease-out forwards;
     }
 
-    @keyframes floatUp { 0% {opacity:1;transform:translateY(0) scale(1);} 100% {opacity:0;transform:translateY(-100px) scale(1.5);} }
+    @keyframes floatUp {0% {opacity:1; transform:translateY(0) scale(1);} 100% {opacity:0; transform:translateY(-100px) scale(1.5);} }
 
     /* --- Clouds --- */
     .cloud {
@@ -134,7 +140,7 @@
       width: 250px;
       height: auto;
       opacity: 0.6;
-      z-index: 1;
+      z-index: 0;
       animation: moveCloud linear infinite;
     }
 
@@ -143,11 +149,12 @@
     /* --- Responsive --- */
     @media (max-width: 500px) {
       .heading-box h1 { font-size: 28px; }
+      .person { width: 95%; padding: 15px; }
       .person img { width: 120px; height: 120px; }
       button { font-size: 14px; padding: 8px 16px; }
+      #totalMisses { width: 90%; font-size: 16px; padding: 12px 15px; }
       .cloud { width: 180px; }
     }
-
   </style>
 </head>
 <body>
@@ -232,13 +239,13 @@
     setTimeout(()=>trail.remove(),800);
   });
 
-  // Floating clouds spaced out using clouds.png
-  const cloudCount = 6; // fewer clouds for more spacing
+  // Floating clouds using clouds.png
+  const cloudCount = 6;
   for(let i=0;i<cloudCount;i++){
     const cloud=document.createElement('img'); cloud.className='cloud';
     cloud.src='clouds.png';
-    cloud.style.top=(i*250 + Math.random()*150)+'px'; // vertical spacing
-    cloud.style.animationDuration=(25+Math.random()*20)+'s';
+    cloud.style.top=(Math.random() * window.innerHeight * 0.8)+'px';
+    cloud.style.animationDuration=(25 + Math.random()*20)+'s';
     cloud.style.left=(-200 - Math.random()*500)+'px';
     document.body.appendChild(cloud);
   }
