@@ -290,9 +290,6 @@ button:hover{
 </div>
 
 <script>
-// Clear previous data
-localStorage.removeItem("miss_Pachu");
-localStorage.removeItem("miss_Hannu");
 
 function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
 function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
