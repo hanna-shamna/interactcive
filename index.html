@@ -59,15 +59,17 @@ html, body {
 
 /* Timer below heading */
 #timerBox{
-  color:#fff;
-  background:#ffabc1;
+  background:#fff;           /* white box */
+  color:#ff5c8a;             /* pink text */
   display:inline-block;
   padding:12px 20px;
   border-radius:15px;
-  margin-bottom:20px;
-  font-size:20px;
+  margin:15px auto 25px auto;
+  font-size:22px;
   font-weight:bold;
   box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  text-align:center;
+  font-family:'Comic Sans MS', sans-serif; /* body text in comic sans */
 }
 
 /* Total Missed */
@@ -84,7 +86,7 @@ html, body {
   font-weight:bold; /* bold text */
   box-shadow:0 4px 10px rgba(0,0,0,0.1);
   text-align:center;
-  font-family:'Comic Sans MS', sans-serif;
+  font-family:'Comic Sans MS', sans-serif; /* body text */
 }
 
 /* Person Cards */
@@ -102,6 +104,7 @@ html, body {
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  font-family:'Comic Sans MS', sans-serif; /* body text */
 }
 .person:hover{
   transform: scale(1.03);
@@ -118,6 +121,7 @@ html, body {
 .person h2{
   font-size:24px;
   margin:10px 0;
+  font-family:'Comic Sans MS', sans-serif; /* keep name in comic sans */
 }
 .person p{
   font-size:20px;
@@ -135,7 +139,7 @@ button{
   transition: background 0.2s, box-shadow 0.2s;
   position: relative;
   overflow:hidden;
-  font-family:'Comic Sans MS', sans-serif;
+  font-family:'Comic Sans MS', sans-serif; /* body text */
 }
 button:hover{
   background:#ff5c8a;
@@ -172,17 +176,20 @@ button:hover{
   overflow-y:auto;
   box-shadow:0 10px 25px rgba(0,0,0,0.25);
   margin-bottom:20px;
+  font-family:'Comic Sans MS', sans-serif; /* notebook body */
 }
 .notebook h3{
   margin-top:0;
   color:#ff5c8a;
   text-align:center;
   font-size:22px;
+  font-family:'Dancing Script', cursive; /* notebook headings in cursive */
 }
 .notebook ul{
   padding-left:20px;
   text-align:left;
   font-size:18px;
+  font-family:'Comic Sans MS', sans-serif; /* notebook list body in comic sans */
 }
 
 /* Angular pink background sparkles */
@@ -241,7 +248,7 @@ button:hover{
 </head>
 <body>
 
-<!-- Doodle on top of gradient but beneath elements -->
+<!-- Doodle background -->
 <img src="doodle.png" id="doodleBg">
 
 <div class="content">
@@ -361,7 +368,7 @@ document.addEventListener('touchmove', e=>{
 render("Pachu"); render("Hannu");
 
 // Timer
-const startDate = new Date("2025-11-29T00:00:00");
+const startDate = new Date("2024-11-29T00:00:00");
 function updateTimer(){
   const now = new Date();
   const diff = now - startDate;
@@ -369,7 +376,7 @@ function updateTimer(){
   const hours = Math.floor((diff / (1000*60*60)) %24);
   const mins = Math.floor((diff / (1000*60)) %60);
   const secs = Math.floor((diff / 1000) %60);
-  document.getElementById("timerBox").innerText = `Together for: ${days}d ${hours}h ${mins}m ${secs}s`;
+  document.getElementById("timerBox").innerHTML = `Together for: <span style="color:#ff5c8a">${days}d ${hours}h ${mins}m ${secs}s</span>`;
 }
 setInterval(updateTimer, 1000);
 updateTimer();
