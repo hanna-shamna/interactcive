@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
   <style>
-    /* Body with cute pink gradient */
     body {
       font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
@@ -17,7 +16,7 @@
       overflow-x: hidden;
     }
 
-    /* Sparkles (mouse trailing & background) */
+    /* Sparkles */
     .sparkle {
       position: fixed;
       width: 10px;
@@ -25,7 +24,7 @@
       background: #ff4c8a;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
       opacity: 0.8;
-      pointer-events: none; /* fix scrolling issue */
+      pointer-events: none; /* Fix scrolling */
       animation: sparkleMove 3s linear infinite;
       box-shadow: 0 0 6px #ff4c8a, 0 0 12px #ff7bac;
       z-index: 0;
@@ -37,39 +36,31 @@
       100% { transform: translateY(-100px) scale(1); opacity: 0; }
     }
 
-    /* Content above sparkles */
-    .content {
-      position: relative;
-      z-index: 2;
-    }
+    .content { position: relative; z-index: 2; }
 
-    /* Heading box */
+    /* Heading */
     .heading-box {
       background: #ff5c8a;
       display: inline-block;
       padding: 20px 30px;
       border-radius: 20px;
-      margin-bottom: 20px; /* space below heading */
+      margin-bottom: 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       animation: pulse 2s infinite;
     }
 
-    @keyframes pulse {
-      0%,100%{transform:scale(1);}
-      50%{transform:scale(1.05);}
-    }
+    @keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 
     .heading-box h1 {
       font-family: 'Dancing Script', cursive;
-      color: #ffffff;
+      color: #fff;
       font-size: 36px;
       margin: 0;
     }
 
-    /* Total Misses */
     #totalMisses {
       font-family: 'Comic Sans MS', cursive;
-      color: #ffffff;
+      color: #fff;
       background: #ff85ab;
       display: block;
       padding: 10px 20px;
@@ -79,7 +70,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    /* Person cards */
     .person {
       background: white;
       padding: 20px;
@@ -92,12 +82,8 @@
       position: relative;
     }
 
-    .person:hover {
-      transform: scale(1.03);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
+    .person:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-    /* Circular images */
     .person img {
       width: 150px;
       height: 150px;
@@ -107,7 +93,6 @@
       margin-bottom: 15px;
     }
 
-    /* Buttons */
     button {
       background: #ff8fab;
       border: none;
@@ -122,23 +107,12 @@
       overflow: hidden;
     }
 
-    button:hover {
-      background: #ff5c8a;
-      box-shadow: 0 0 15px rgba(255,140,171,0.6);
-    }
+    button:hover { background: #ff5c8a; box-shadow: 0 0 15px rgba(255,140,171,0.6); }
 
-    ul {
-      text-align: left;
-      max-height: 150px;
-      overflow-y: auto;
-      padding-left: 20px;
-    }
+    ul { text-align: left; max-height: 150px; overflow-y: auto; padding-left: 20px; }
 
-    li {
-      margin-bottom: 5px;
-    }
+    li { margin-bottom: 5px; }
 
-    /* Heart/confetti animation */
     .heart {
       position: absolute;
       font-size: 24px;
@@ -146,127 +120,112 @@
       animation: floatUp 1s ease-out forwards;
     }
 
-    @keyframes floatUp {
-      0%{opacity:1;transform:translateY(0) scale(1);}
-      100%{opacity:0;transform:translateY(-100px) scale(1.5);}
-    }
+    @keyframes floatUp {0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-100px) scale(1.5);}}
 
-    /* Floating clouds */
+    /* Realistic cloud image */
     .cloud {
       position: absolute;
-      width: 150px;
-      height: 80px;
-      background: rgba(255,255,255,0.7);
-      border-radius: 50%;
-      box-shadow: 50px 0 0 0 rgba(255,255,255,0.7),
-                  100px 0 0 0 rgba(255,255,255,0.7);
+      width: 250px;
+      height: auto;
       opacity: 0.6;
       z-index: 1;
       animation: moveCloud linear infinite;
     }
 
-    @keyframes moveCloud {
-      0% { transform: translateX(-200px); }
-      100% { transform: translateX(120vw); }
-    }
+    @keyframes moveCloud {0%{transform:translateX(-300px);}100%{transform:translateX(120vw);}}
   </style>
 </head>
 <body>
 
-  <div class="content">
-    <!-- Heading -->
-    <div class="heading-box">
-      <h1>Pachuttan + Hannu = WWE Wrestlemania 💖</h1>
-    </div>
+<div class="content">
+  <div class="heading-box">
+    <h1>Pachuttan + Hannu = WWE Wrestlemania 💖</h1>
+  </div>
+  <div id="totalMisses">Total Missed Each Other: 0 💕</div>
 
-    <!-- Total Misses (Below heading now) -->
-    <div id="totalMisses">Total Missed Each Other: 0 💕</div>
-
-    <!-- Pachu Section -->
-    <div class="person">
-      <img src="bubuu.jpg" alt="Pachu">
-      <h2>Pachu 🐥</h2>
-      <p>Times missed: <span id="countPachu">0</span></p>
-      <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
-      <ul id="listPachu"></ul>
-    </div>
-
-    <!-- Hannu Section -->
-    <div class="person">
-      <img src="dudu.jpg" alt="Hannu">
-      <h2>Hannu 🐻</h2>
-      <p>Times missed: <span id="countHannu">0</span></p>
-      <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
-      <ul id="listHannu"></ul>
-    </div>
+  <div class="person">
+    <img src="bubuu.jpg" alt="Pachu">
+    <h2>Pachu 🐥</h2>
+    <p>Times missed: <span id="countPachu">0</span></p>
+    <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
+    <ul id="listPachu"></ul>
   </div>
 
-  <script>
-    // Load/save reasons
-    function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
-    function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
+  <div class="person">
+    <img src="dudu.jpg" alt="Hannu">
+    <h2>Hannu 🐻</h2>
+    <p>Times missed: <span id="countHannu">0</span></p>
+    <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
+    <ul id="listHannu"></ul>
+  </div>
+</div>
 
-    function render(name){
-      const data=loadData(name);
-      document.getElementById("count"+name).innerText=data.length;
-      const list=document.getElementById("list"+name);
-      list.innerHTML="";
-      data.forEach(item=>{const li=document.createElement("li");li.innerText=item;list.appendChild(li);});
-      updateTotalMisses();
-    }
+<script>
+  // Load/save reasons
+  function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
+  function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
 
-    function updateTotalMisses(){
-      const total=loadData("Pachu").length+loadData("Hannu").length;
-      document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
-    }
+  function render(name){
+    const data=loadData(name);
+    document.getElementById("count"+name).innerText=data.length;
+    const list=document.getElementById("list"+name);
+    list.innerHTML="";
+    data.forEach(item=>{const li=document.createElement("li");li.innerText=item;list.appendChild(li);});
+    updateTotalMisses();
+  }
 
-    function addReason(name,button){
-      const reason=prompt("Why do you miss them? 💕"); if(!reason)return;
-      const now=new Date().toLocaleString();
-      const entry=`${reason} (${now})`;
-      const data=loadData(name); data.push(entry); saveData(name,data);
-      render(name);
-      for(let i=0;i<5;i++){createHeart(button);}
-    }
+  function updateTotalMisses(){
+    const total=loadData("Pachu").length+loadData("Hannu").length;
+    document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
+  }
 
-    function createHeart(button){
-      const heart=document.createElement("span"); heart.className="heart";
-      const hearts=["💖","💗","💘","💞","💕"];
-      heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
-      const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
-      button.appendChild(heart); setTimeout(()=>heart.remove(),1000);
-    }
+  function addReason(name,button){
+    const reason=prompt("Why do you miss them? 💕"); if(!reason)return;
+    const now=new Date().toLocaleString();
+    const entry=`${reason} (${now})`;
+    const data=loadData(name); data.push(entry); saveData(name,data);
+    render(name);
+    for(let i=0;i<5;i++){createHeart(button);}
+  }
 
-    render("Pachu"); render("Hannu");
+  function createHeart(button){
+    const heart=document.createElement("span"); heart.className="heart";
+    const hearts=["💖","💗","💘","💞","💕"];
+    heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
+    const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
+    button.appendChild(heart); setTimeout(()=>heart.remove(),1000);
+  }
 
-    // Background sparkles
-    const sparkleCount=30;
-    for(let i=0;i<sparkleCount;i++){
-      const sparkle=document.createElement('div'); sparkle.className='sparkle';
-      sparkle.style.left=Math.random()*window.innerWidth+'px';
-      sparkle.style.top=Math.random()*window.innerHeight+'px';
-      sparkle.style.animationDelay=(Math.random()*5)+'s';
-      document.body.appendChild(sparkle);
-    }
+  render("Pachu"); render("Hannu");
 
-    // Mouse trailing sparkles (pointer-events: none allows scrolling)
-    document.addEventListener('mousemove',function(e){
-      const trail=document.createElement('div'); trail.className='sparkle';
-      trail.style.left=(e.clientX-5)+'px'; trail.style.top=(e.clientY-5)+'px';
-      trail.style.width='8px'; trail.style.height='8px'; trail.style.opacity='0.9';
-      trail.style.transition='opacity 0.8s, transform 0.8s'; document.body.appendChild(trail);
-      setTimeout(()=>trail.remove(),800);
-    });
+  // Background sparkles
+  for(let i=0;i<30;i++){
+    const sparkle=document.createElement('div'); sparkle.className='sparkle';
+    sparkle.style.left=Math.random()*window.innerWidth+'px';
+    sparkle.style.top=Math.random()*window.innerHeight+'px';
+    sparkle.style.animationDelay=(Math.random()*5)+'s';
+    document.body.appendChild(sparkle);
+  }
 
-    // Floating clouds dispersed throughout page
-    for(let i=0;i<10;i++){
-      const cloud=document.createElement('div'); cloud.className='cloud';
-      cloud.style.top=(Math.random()*document.body.scrollHeight)+'px';
-      cloud.style.animationDuration=(20+Math.random()*20)+'s';
-      cloud.style.left=(-200-Math.random()*300)+'px';
-      document.body.appendChild(cloud);
-    }
+  // Mouse trailing sparkles
+  document.addEventListener('mousemove',function(e){
+    const trail=document.createElement('div'); trail.className='sparkle';
+    trail.style.left=(e.clientX-5)+'px'; trail.style.top=(e.clientY-5)+'px';
+    trail.style.width='8px'; trail.style.height='8px'; trail.style.opacity='0.9';
+    trail.style.transition='opacity 0.8s, transform 0.8s'; document.body.appendChild(trail);
+    setTimeout(()=>trail.remove(),800);
+  });
 
-  </script>
+  // Floating clouds using clouds.jpg
+  for(let i=0;i<10;i++){
+    const cloud=document.createElement('img'); cloud.className='cloud';
+    cloud.src='clouds.jpg';
+    cloud.style.top=(Math.random()*document.body.scrollHeight)+'px';
+    cloud.style.animationDuration=(20+Math.random()*20)+'s';
+    cloud.style.left=(-200-Math.random()*300)+'px';
+    document.body.appendChild(cloud);
+  }
+</script>
+
 </body>
 </html>
