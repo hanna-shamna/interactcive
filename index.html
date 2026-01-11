@@ -11,11 +11,11 @@
     html, body {
       margin: 0;
       padding: 0;
-      font-family: 'Comic Sans MS', cursive;
+      font-family: 'Comic Sans MS', cursive; /* default font for all text */
       background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
-      text-align: center;
-      overflow-x: hidden;
       min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
     .content {
@@ -24,7 +24,7 @@
       padding: 30px 20px;
     }
 
-    /* Heading */
+    /* Soft floating heading */
     .heading-box {
       background: #ff5c8a;
       display: inline-block;
@@ -32,17 +32,17 @@
       border-radius: 20px;
       margin: 20px auto;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      animation: heartbeat 2s infinite; /* slower heartbeat */
+      animation: floatHeading 4s ease-in-out infinite;
     }
 
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      25%, 75% { transform: scale(1.08); } /* slower, subtle pulse */
-      50% { transform: scale(1); }
+    @keyframes floatHeading {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.02); }
+      100% { transform: translateY(0) scale(1); }
     }
 
     .heading-box h1 {
-      font-family: 'Dancing Script', cursive;
+      font-family: 'Dancing Script', cursive; /* only heading font */
       color: #fff;
       font-size: 36px;
       margin: 0;
@@ -50,7 +50,6 @@
 
     /* Total Missed Box */
     #totalMisses {
-      font-family: 'Comic Sans MS', cursive;
       color: #fff;
       background: #ff85ab;
       display: block;
@@ -79,6 +78,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      font-family: 'Comic Sans MS', cursive; /* force Comic Sans for cards */
     }
 
     .person:hover {
@@ -107,6 +107,7 @@
       transition: background 0.2s, box-shadow 0.2s;
       position: relative;
       overflow: hidden;
+      font-family: 'Comic Sans MS', cursive; /* buttons in Comic Sans */
     }
 
     button:hover {
@@ -114,15 +115,7 @@
       box-shadow: 0 0 15px rgba(255,140,171,0.6);
     }
 
-    ul {
-      text-align: left;
-      max-height: 150px;
-      overflow-y: auto;
-      padding-left: 20px;
-      width: 100%;
-    }
-
-    li { margin-bottom: 5px; }
+    ul { display: none; }
 
     .heart {
       position: absolute;
@@ -136,19 +129,60 @@
       100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
     }
 
-    /* Clouds */
-    .cloud {
-      position: absolute;
-      width: 250px;
-      height: auto;
-      opacity: 0.6;
-      z-index: 0;
-      animation: moveCloud linear infinite;
+    /* Notebook popup */
+    .notebook {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff9e6;
+      border: 2px dashed #ff8fab;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 90%;
+      width: 400px;
+      max-height: 60%;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 9999;
+      display: none;
+      font-family: 'Comic Sans MS', cursive; /* notebook in Comic Sans */
     }
 
-    @keyframes moveCloud {
-      0% { transform: translateX(-300px); }
-      100% { transform: translateX(120vw); }
+    .notebook h3 {
+      margin-top: 0;
+      color: #ff5c8a;
+      text-align: center;
+    }
+
+    .notebook ul {
+      padding-left: 20px;
+      text-align: left;
+    }
+
+    .notebook button {
+      background: #ff5c8a;
+      margin-top: 15px;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    /* Angular pink background sparkles */
+    .sparkle {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #ff4c8a;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      opacity: 0.8;
+      z-index: 0;
+      pointer-events: none;
+      animation: sparkleAnim 6s linear infinite;
+    }
+
+    @keyframes sparkleAnim {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      50% { transform: translateY(-30px) rotate(180deg); opacity: 0.4; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 0.8; }
     }
 
     /* Responsive */
@@ -157,8 +191,8 @@
       .person img { width: 120px; height: 120px; }
       button { font-size: 15px; padding: 10px 20px; }
       #totalMisses { font-size: 18px; padding: 12px 20px; }
-      .cloud { width: 180px; }
     }
+
   </style>
 </head>
 <body>
@@ -175,7 +209,7 @@
     <h2>Pachu 🐥</h2>
     <p>Times missed: <span id="countPachu">0</span></p>
     <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
-    <ul id="listPachu"></ul>
+    <button onclick="showNotebook('Pachu')">Click Here 📓</button>
   </div>
 
   <div class="person">
@@ -183,57 +217,121 @@
     <h2>Hannu 🐻</h2>
     <p>Times missed: <span id="countHannu">0</span></p>
     <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
-    <ul id="listHannu"></ul>
+    <button onclick="showNotebook('Hannu')">Click Here 📓</button>
   </div>
 </div>
 
+<!-- Notebook popup -->
+<div id="notebook" class="notebook">
+  <h3 id="notebookTitle">Reasons</h3>
+  <ul id="notebookList"></ul>
+  <button onclick="closeNotebook()">Close</button>
+</div>
+
 <script>
-  function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
-  function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
+const milestones = [10,25,50,100,200,300,500];
 
-  function render(name){
-    const data=loadData(name);
-    document.getElementById("count"+name).innerText=data.length;
-    const list=document.getElementById("list"+name);
-    list.innerHTML="";
-    data.forEach(item=>{const li=document.createElement("li"); li.innerText=item; list.appendChild(li);});
-    updateTotalMisses();
+function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
+function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
+
+function render(name){
+  const data=loadData(name);
+  document.getElementById("count"+name).innerText=data.length;
+  updateTotalMisses();
+}
+
+function updateTotalMisses(){
+  const total=loadData("Pachu").length+loadData("Hannu").length;
+  document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
+  if(milestones.includes(total)){
+    celebrate();
   }
+}
 
-  function updateTotalMisses(){
-    const total=loadData("Pachu").length+loadData("Hannu").length;
-    document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
+function addReason(name,button){
+  const reason=prompt("Why do you miss them? 💕"); 
+  if(!reason) return;
+  const now=new Date().toLocaleString();
+  const entry=`${reason} (${now})`;
+  const data=loadData(name); data.push(entry); saveData(name,data);
+  render(name);
+  for(let i=0;i<5;i++){createHeart(button);}
+}
+
+function createHeart(button){
+  const heart=document.createElement("span"); heart.className="heart";
+  const hearts=["💖","💗","💘","💞","💕"];
+  heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
+  const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
+  button.appendChild(heart); setTimeout(()=>heart.remove(),1000);
+}
+
+// Milestone celebration
+function celebrate(){
+  for(let i=0;i<100;i++){
+    const c=document.createElement('div');
+    c.style.position='fixed';
+    c.style.width='10px'; c.style.height='10px';
+    c.style.background=['#ff4c8a','#ff85ab','#ffc0cb','#ff7bac'][Math.floor(Math.random()*4)];
+    c.style.left=Math.random()*window.innerWidth+'px';
+    c.style.top=Math.random()*window.innerHeight+'px';
+    c.style.opacity=0.9;
+    c.style.borderRadius='50%';
+    c.style.zIndex=9999;
+    document.body.appendChild(c);
+    const dx=(Math.random()-0.5)*10;
+    const dy=(Math.random()-0.5)*10;
+    let t=0;
+    const anim=setInterval(()=>{
+      t++;
+      c.style.left=parseFloat(c.style.left)+dx+'px';
+      c.style.top=parseFloat(c.style.top)+dy+'px';
+      c.style.opacity-=0.02;
+      if(t>50){clearInterval(anim); c.remove();}
+    },20);
   }
+}
 
-  function addReason(name,button){
-    const reason=prompt("Why do you miss them? 💕"); if(!reason)return;
-    const now=new Date().toLocaleString();
-    const entry=`${reason} (${now})`;
-    const data=loadData(name); data.push(entry); saveData(name,data);
-    render(name);
-    for(let i=0;i<5;i++){createHeart(button);}
-  }
+// Notebook popup
+function showNotebook(name){
+  const data = loadData(name);
+  const list = document.getElementById("notebookList");
+  list.innerHTML = '';
+  data.forEach(item => {
+    const li=document.createElement('li'); li.innerText = item; list.appendChild(li);
+  });
+  document.getElementById("notebookTitle").innerText = `${name}'s Reasons 💖`;
+  document.getElementById("notebook").style.display='block';
+}
+function closeNotebook(){
+  document.getElementById("notebook").style.display='none';
+}
 
-  function createHeart(button){
-    const heart=document.createElement("span"); heart.className="heart";
-    const hearts=["💖","💗","💘","💞","💕"];
-    heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
-    const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
-    button.appendChild(heart); setTimeout(()=>heart.remove(),1000);
-  }
+// Angular pink background sparkles
+for(let i=0;i<25;i++){
+  const s=document.createElement('div'); s.className='sparkle';
+  s.style.left=Math.random()*window.innerWidth+'px';
+  s.style.top=Math.random()*window.innerHeight+'px';
+  s.style.animationDelay=(Math.random()*6)+'s';
+  document.body.appendChild(s);
+}
 
-  render("Pachu"); render("Hannu");
+// Mouse trailing sparkles
+document.addEventListener('mousemove', function(e){
+  const trail=document.createElement('div'); 
+  trail.className='sparkle';
+  trail.style.left=e.clientX+'px';
+  trail.style.top=e.clientY+'px';
+  trail.style.width='6px'; trail.style.height='6px';
+  trail.style.opacity='0.8';
+  trail.style.transition='transform 0.5s, opacity 0.5s';
+  trail.style.zIndex=10;
+  document.body.appendChild(trail);
+  setTimeout(()=>trail.remove(),500);
+});
 
-  // Clouds
-  const cloudCount = 6;
-  for(let i=0;i<cloudCount;i++){
-    const cloud=document.createElement('img'); cloud.className='cloud';
-    cloud.src='clouds.png';
-    cloud.style.top=(Math.random() * window.innerHeight * 0.8)+'px';
-    cloud.style.animationDuration=(25 + Math.random()*20)+'s';
-    cloud.style.left=(-200 - Math.random()*500)+'px';
-    document.body.appendChild(cloud);
-  }
+// Initial render
+render("Pachu"); render("Hannu");
 </script>
 
 </body>
