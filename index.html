@@ -15,7 +15,6 @@
       text-align: center;
       padding: 30px;
       overflow-x: hidden;
-      overflow-y: hidden;
     }
 
     /* Sparkles (mouse trailing & background) */
@@ -24,12 +23,12 @@
       width: 10px;
       height: 10px;
       background: #ff4c8a;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* diamond shape */
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
       opacity: 0.8;
-      pointer-events: none;
+      pointer-events: none; /* fix scrolling issue */
       animation: sparkleMove 3s linear infinite;
       box-shadow: 0 0 6px #ff4c8a, 0 0 12px #ff7bac;
-      z-index: 0; /* behind content */
+      z-index: 0;
     }
 
     @keyframes sparkleMove {
@@ -50,14 +49,14 @@
       display: inline-block;
       padding: 20px 30px;
       border-radius: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 20px; /* space below heading */
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.05);}
     }
 
     .heading-box h1 {
@@ -72,7 +71,7 @@
       font-family: 'Comic Sans MS', cursive;
       color: #ffffff;
       background: #ff85ab;
-      display: inline-block;
+      display: block;
       padding: 10px 20px;
       border-radius: 20px;
       margin-bottom: 30px;
@@ -148,14 +147,13 @@
     }
 
     @keyframes floatUp {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+      0%{opacity:1;transform:translateY(0) scale(1);}
+      100%{opacity:0;transform:translateY(-100px) scale(1.5);}
     }
 
     /* Floating clouds */
     .cloud {
-      position: fixed;
-      top: 0;
+      position: absolute;
       width: 150px;
       height: 80px;
       background: rgba(255,255,255,0.7);
@@ -178,10 +176,10 @@
   <div class="content">
     <!-- Heading -->
     <div class="heading-box">
-      <h1>Pachuttan + Hannu = WWE Wrestlemania  🫶💌</h1>
+      <h1>Pachuttan + Hannu = WWE Wrestlemania 💖</h1>
     </div>
 
-    <!-- Total Misses -->
+    <!-- Total Misses (Below heading now) -->
     <div id="totalMisses">Total Missed Each Other: 0 💕</div>
 
     <!-- Pachu Section -->
@@ -205,33 +203,29 @@
 
   <script>
     // Load/save reasons
-    function loadData(name) { return JSON.parse(localStorage.getItem("miss_" + name)) || []; }
-    function saveData(name, data) { localStorage.setItem("miss_" + name, JSON.stringify(data)); }
+    function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
+    function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
 
-    function render(name) {
-      const data = loadData(name);
-      document.getElementById("count" + name).innerText = data.length;
-      const list = document.getElementById("list" + name);
-      list.innerHTML = "";
-      data.forEach(item => { const li=document.createElement("li"); li.innerText=item; list.appendChild(li); });
+    function render(name){
+      const data=loadData(name);
+      document.getElementById("count"+name).innerText=data.length;
+      const list=document.getElementById("list"+name);
+      list.innerHTML="";
+      data.forEach(item=>{const li=document.createElement("li");li.innerText=item;list.appendChild(li);});
       updateTotalMisses();
     }
 
-    function updateTotalMisses() {
-      const total = loadData("Pachu").length + loadData("Hannu").length;
-      document.getElementById("totalMisses").innerText = `Total Missed Each Other: ${total} 💕`;
+    function updateTotalMisses(){
+      const total=loadData("Pachu").length+loadData("Hannu").length;
+      document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
     }
 
-    function addReason(name, button) {
-      const reason = prompt(`Why do you miss them? 💕`); if(!reason) return;
-      const now = new Date().toLocaleString();
-      const entry = `${reason} (${now})`;
-      const data = loadData(name);
-      data.push(entry);
-      saveData(name, data);
+    function addReason(name,button){
+      const reason=prompt("Why do you miss them? 💕"); if(!reason)return;
+      const now=new Date().toLocaleString();
+      const entry=`${reason} (${now})`;
+      const data=loadData(name); data.push(entry); saveData(name,data);
       render(name);
-
-      // Multiple hearts/confetti
       for(let i=0;i<5;i++){createHeart(button);}
     }
 
@@ -239,14 +233,13 @@
       const heart=document.createElement("span"); heart.className="heart";
       const hearts=["💖","💗","💘","💞","💕"];
       heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
-      const x=Math.random()*(button.offsetWidth-20);
-      heart.style.left=`${x}px`; heart.style.top=`-10px`; button.appendChild(heart);
-      setTimeout(()=>heart.remove(),1000);
+      const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
+      button.appendChild(heart); setTimeout(()=>heart.remove(),1000);
     }
 
     render("Pachu"); render("Hannu");
 
-    // Create background sparkles
+    // Background sparkles
     const sparkleCount=30;
     for(let i=0;i<sparkleCount;i++){
       const sparkle=document.createElement('div'); sparkle.className='sparkle';
@@ -256,26 +249,24 @@
       document.body.appendChild(sparkle);
     }
 
-    // Mouse trailing sparkles
-    document.addEventListener('mousemove', function(e){
+    // Mouse trailing sparkles (pointer-events: none allows scrolling)
+    document.addEventListener('mousemove',function(e){
       const trail=document.createElement('div'); trail.className='sparkle';
-      trail.style.left=(e.clientX-5)+'px';
-      trail.style.top=(e.clientY-5)+'px';
-      trail.style.width='8px'; trail.style.height='8px';
-      trail.style.opacity=0.9;
-      trail.style.transition='opacity 0.8s, transform 0.8s';
-      document.body.appendChild(trail);
+      trail.style.left=(e.clientX-5)+'px'; trail.style.top=(e.clientY-5)+'px';
+      trail.style.width='8px'; trail.style.height='8px'; trail.style.opacity='0.9';
+      trail.style.transition='opacity 0.8s, transform 0.8s'; document.body.appendChild(trail);
       setTimeout(()=>trail.remove(),800);
     });
 
-    // Floating clouds
-    for(let i=0;i<5;i++){
+    // Floating clouds dispersed throughout page
+    for(let i=0;i<10;i++){
       const cloud=document.createElement('div'); cloud.className='cloud';
-      cloud.style.top=(Math.random()*200)+'px';
+      cloud.style.top=(Math.random()*document.body.scrollHeight)+'px';
       cloud.style.animationDuration=(20+Math.random()*20)+'s';
       cloud.style.left=(-200-Math.random()*300)+'px';
       document.body.appendChild(cloud);
     }
+
   </script>
 </body>
 </html>
