@@ -60,17 +60,21 @@
       margin: 0;
     }
 
-    #totalMisses {
-      font-family: 'Comic Sans MS', cursive;
-      color: #fff;
-      background: #ff85ab;
-      display: block;
-      padding: 10px 20px;
-      border-radius: 20px;
-      margin-bottom: 30px;
-      font-size: 18px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+  #totalMisses {
+  font-family: 'Comic Sans MS', cursive;
+  color: #fff;
+  background: #ff85ab;
+  display: inline-block;        /* makes width wrap content */
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  min-width: 200px;            /* optional: ensure it’s not too tiny */
+  max-width: 300px;            /* optional: limit max width */
+  text-align: center;           /* center text inside */
+}
+
 
     /* --- Person Cards --- */
     .person {
