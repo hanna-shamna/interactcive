@@ -15,14 +15,15 @@
       text-align: center;
       padding: 30px;
       overflow-x: hidden;
+      overflow-y: hidden;
     }
 
-    /* Sparkles behind content (angular) */
+    /* Sparkles (mouse trailing & background) */
     .sparkle {
       position: fixed;
       width: 10px;
       height: 10px;
-      background: #ff4c8a; /* dark pink */
+      background: #ff4c8a;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* diamond shape */
       opacity: 0.8;
       pointer-events: none;
@@ -32,33 +33,24 @@
     }
 
     @keyframes sparkleMove {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.8;
-      }
-      50% {
-        transform: translateY(-50px) scale(1.2);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100px) scale(1);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      50% { transform: translateY(-50px) scale(1.2); opacity: 1; }
+      100% { transform: translateY(-100px) scale(1); opacity: 0; }
     }
 
-    /* Content container above sparkles */
+    /* Content above sparkles */
     .content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     /* Heading box */
     .heading-box {
-      background: #ff5c8a; /* dark pink */
+      background: #ff5c8a;
       display: inline-block;
       padding: 20px 30px;
       border-radius: 20px;
-      margin-bottom: 40px;
+      margin-bottom: 10px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       animation: pulse 2s infinite;
     }
@@ -70,9 +62,22 @@
 
     .heading-box h1 {
       font-family: 'Dancing Script', cursive;
-      color: #ffffff; /* white text */
+      color: #ffffff;
       font-size: 36px;
       margin: 0;
+    }
+
+    /* Total Misses */
+    #totalMisses {
+      font-family: 'Comic Sans MS', cursive;
+      color: #ffffff;
+      background: #ff85ab;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     /* Person cards */
@@ -123,7 +128,6 @@
       box-shadow: 0 0 15px rgba(255,140,171,0.6);
     }
 
-    /* List of reasons */
     ul {
       text-align: left;
       max-height: 150px;
@@ -144,26 +148,41 @@
     }
 
     @keyframes floatUp {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-100px) scale(1.5);
-      }
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+    }
+
+    /* Floating clouds */
+    .cloud {
+      position: fixed;
+      top: 0;
+      width: 150px;
+      height: 80px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 50%;
+      box-shadow: 50px 0 0 0 rgba(255,255,255,0.7),
+                  100px 0 0 0 rgba(255,255,255,0.7);
+      opacity: 0.6;
+      z-index: 1;
+      animation: moveCloud linear infinite;
+    }
+
+    @keyframes moveCloud {
+      0% { transform: translateX(-200px); }
+      100% { transform: translateX(120vw); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Sparkles will be added by JS -->
-
   <div class="content">
     <!-- Heading -->
     <div class="heading-box">
-      <h1>Pachuttan + Hannu = WWE Wrestlemania 🫶💌</h1>
+      <h1>Pachuttan + Hannu = WWE Wrestlemania  🫶💌</h1>
     </div>
+
+    <!-- Total Misses -->
+    <div id="totalMisses">Total Missed Each Other: 0 💕</div>
 
     <!-- Pachu Section -->
     <div class="person">
@@ -186,70 +205,77 @@
 
   <script>
     // Load/save reasons
-    function loadData(name) {
-      return JSON.parse(localStorage.getItem("miss_" + name)) || [];
-    }
-    function saveData(name, data) {
-      localStorage.setItem("miss_" + name, JSON.stringify(data));
-    }
+    function loadData(name) { return JSON.parse(localStorage.getItem("miss_" + name)) || []; }
+    function saveData(name, data) { localStorage.setItem("miss_" + name, JSON.stringify(data)); }
 
     function render(name) {
       const data = loadData(name);
       document.getElementById("count" + name).innerText = data.length;
       const list = document.getElementById("list" + name);
       list.innerHTML = "";
-      data.forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        list.appendChild(li);
-      });
+      data.forEach(item => { const li=document.createElement("li"); li.innerText=item; list.appendChild(li); });
+      updateTotalMisses();
+    }
+
+    function updateTotalMisses() {
+      const total = loadData("Pachu").length + loadData("Hannu").length;
+      document.getElementById("totalMisses").innerText = `Total Missed Each Other: ${total} 💕`;
     }
 
     function addReason(name, button) {
-      const reason = prompt(`Why do you miss them? 💕`);
-      if (!reason) return;
-
+      const reason = prompt(`Why do you miss them? 💕`); if(!reason) return;
       const now = new Date().toLocaleString();
       const entry = `${reason} (${now})`;
-
       const data = loadData(name);
       data.push(entry);
       saveData(name, data);
       render(name);
 
       // Multiple hearts/confetti
-      for (let i = 0; i < 5; i++) {
-        createHeart(button);
-      }
+      for(let i=0;i<5;i++){createHeart(button);}
     }
 
-    function createHeart(button) {
-      const heart = document.createElement("span");
-      heart.className = "heart";
-      const hearts = ["💖","💗","💘","💞","💕"];
-      heart.innerText = hearts[Math.floor(Math.random()*hearts.length)];
-      const x = Math.random() * (button.offsetWidth - 20);
-      heart.style.left = `${x}px`;
-      heart.style.top = `-10px`;
-      button.appendChild(heart);
-      setTimeout(() => heart.remove(), 1000);
+    function createHeart(button){
+      const heart=document.createElement("span"); heart.className="heart";
+      const hearts=["💖","💗","💘","💞","💕"];
+      heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
+      const x=Math.random()*(button.offsetWidth-20);
+      heart.style.left=`${x}px`; heart.style.top=`-10px`; button.appendChild(heart);
+      setTimeout(()=>heart.remove(),1000);
     }
 
-    // Initial render
-    render("Pachu");
-    render("Hannu");
+    render("Pachu"); render("Hannu");
 
-    // Create sparkles
-    const sparkleCount = 30;
-    for (let i = 0; i < sparkleCount; i++) {
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle';
-      sparkle.style.left = Math.random() * window.innerWidth + 'px';
-      sparkle.style.top = Math.random() * window.innerHeight + 'px';
-      sparkle.style.animationDelay = (Math.random() * 5) + 's';
+    // Create background sparkles
+    const sparkleCount=30;
+    for(let i=0;i<sparkleCount;i++){
+      const sparkle=document.createElement('div'); sparkle.className='sparkle';
+      sparkle.style.left=Math.random()*window.innerWidth+'px';
+      sparkle.style.top=Math.random()*window.innerHeight+'px';
+      sparkle.style.animationDelay=(Math.random()*5)+'s';
       document.body.appendChild(sparkle);
     }
-  </script>
 
+    // Mouse trailing sparkles
+    document.addEventListener('mousemove', function(e){
+      const trail=document.createElement('div'); trail.className='sparkle';
+      trail.style.left=(e.clientX-5)+'px';
+      trail.style.top=(e.clientY-5)+'px';
+      trail.style.width='8px'; trail.style.height='8px';
+      trail.style.opacity=0.9;
+      trail.style.transition='opacity 0.8s, transform 0.8s';
+      document.body.appendChild(trail);
+      setTimeout(()=>trail.remove(),800);
+    });
+
+    // Floating clouds
+    for(let i=0;i<5;i++){
+      const cloud=document.createElement('div'); cloud.className='cloud';
+      cloud.style.top=(Math.random()*200)+'px';
+      cloud.style.animationDuration=(20+Math.random()*20)+'s';
+      cloud.style.left=(-200-Math.random()*300)+'px';
+      document.body.appendChild(cloud);
+    }
+  </script>
 </body>
 </html>
