@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pachu & Hannu 💕</title>
+  <title>GIFT</title>
 
   <!-- Google Font for heading -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
@@ -44,14 +44,11 @@
     .heading-box {
       background: #ff5c8a;
       display: inline-block;
-      padding: 20px 30px;
+      padding: 25px 35px;
       border-radius: 20px;
       margin-bottom: 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      animation: pulse 2s infinite;
     }
-
-    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
     .heading-box h1 {
       font-family: 'Dancing Script', cursive;
@@ -66,28 +63,22 @@
       color: #fff;
       background: #ff85ab;
       display: block;
-      width: 250px;                 
-      margin: 15px auto 30px auto;  
-      padding: 10px 20px;
+      width: 280px;
+      margin: 20px auto 30px auto;
+      padding: 12px 20px;
       border-radius: 20px;
       font-size: 18px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
-      animation: pulseBox 2s infinite;
-    }
-
-    @keyframes pulseBox {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
     }
 
     /* --- Person Cards --- */
     .person {
       background: white;
-      padding: 20px;
-      margin: 20px auto;
+      padding: 25px;
+      margin: 25px auto;
       width: 90%;
-      max-width: 400px;
+      max-width: 450px;
       border-radius: 20px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
       transition: transform 0.2s, box-shadow 0.2s;
@@ -97,8 +88,8 @@
     .person:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
     .person img {
-      width: 150px;
-      height: 150px;
+      width: 160px;
+      height: 160px;
       object-fit: cover;
       border-radius: 50%;
       border: 4px solid #ff8fab;
@@ -108,7 +99,7 @@
     button {
       background: #ff8fab;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 25px;
       border-radius: 20px;
       font-size: 16px;
       cursor: pointer;
@@ -148,11 +139,11 @@
 
     /* --- Responsive --- */
     @media (max-width: 500px) {
-      .heading-box h1 { font-size: 28px; }
-      .person { width: 95%; padding: 15px; }
-      .person img { width: 120px; height: 120px; }
-      button { font-size: 14px; padding: 8px 16px; }
-      #totalMisses { width: 90%; font-size: 16px; padding: 12px 15px; }
+      .heading-box h1 { font-size: 32px; }
+      .person { width: 95%; padding: 20px; }
+      .person img { width: 140px; height: 140px; }
+      button { font-size: 15px; padding: 10px 20px; }
+      #totalMisses { width: 90%; font-size: 17px; padding: 12px 20px; }
       .cloud { width: 180px; }
     }
   </style>
@@ -184,7 +175,6 @@
 </div>
 
 <script>
-  // Load/save reasons
   function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
   function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
 
@@ -239,7 +229,7 @@
     setTimeout(()=>trail.remove(),800);
   });
 
-  // Floating clouds using clouds.png
+  // Floating clouds
   const cloudCount = 6;
   for(let i=0;i<cloudCount;i++){
     const cloud=document.createElement('img'); cloud.className='cloud';
