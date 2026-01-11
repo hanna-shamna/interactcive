@@ -6,13 +6,16 @@
   <style>
     body {
       font-family: 'Comic Sans MS', cursive;
-      background: #ffeef4;
+      background: #ffccd9; /* soft pink */
       text-align: center;
       padding: 30px;
+      overflow-x: hidden;
     }
 
     h1 {
       color: #ff5c8a;
+      font-size: 36px;
+      margin-bottom: 40px;
     }
 
     .person {
@@ -23,6 +26,22 @@
       max-width: 400px;
       border-radius: 20px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    .person:hover {
+      transform: scale(1.02);
+    }
+
+    /* Circular image */
+    .person img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #ff8fab;
+      margin-bottom: 15px;
     }
 
     button {
@@ -33,6 +52,10 @@
       font-size: 16px;
       cursor: pointer;
       color: white;
+      margin-bottom: 10px;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
     }
 
     button:hover {
@@ -41,62 +64,114 @@
 
     ul {
       text-align: left;
+      max-height: 150px;
+      overflow-y: auto;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    /* Heart animation */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      color: #ff3c7e;
+      pointer-events: none;
+      animation: floatUp 1s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
     }
   </style>
 </head>
 <body>
 
-<h1>When Pachu & Hannu Miss Each Other 💖</h1>
+  <h1>Pachu + Hannu = WWE Wrestlemania 💖</h1>
 
-<div class="person">
-  <h2>Pachu 🐥</h2>
-  <p>Times missed: <span id="countPachu">0</span></p>
-  <button onclick="addReason('Pachu')">I miss you 🥺</button>
-  <ul id="listPachu"></ul>
-</div>
+  <!-- Pachu Section -->
+  <div class="person">
+    <img src="bubuu.jpg" alt="Pachu">
+    <h2>Pachu 🐥</h2>
+    <p>Times missed: <span id="countPachu">0</span></p>
+    <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
+    <ul id="listPachu"></ul>
+  </div>
 
-<div class="person">
-  <h2>Hannu 🐻</h2>
-  <p>Times missed: <span id="countHannu">0</span></p>
-  <button onclick="addReason('Hannu')">I miss you 🥺</button>
-  <ul id="listHannu"></ul>
-</div>
+  <!-- Hannu Section -->
+  <div class="person">
+    <img src="dudu.jpg" alt="Hannu">
+    <h2>Hannu 🐻</h2>
+    <p>Times missed: <span id="countHannu">0</span></p>
+    <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
+    <ul id="listHannu"></ul>
+  </div>
 
-<script>
-  function loadData(name) {
-    return JSON.parse(localStorage.getItem("miss_" + name)) || [];
-  }
+  <script>
+    function loadData(name) {
+      return JSON.parse(localStorage.getItem("miss_" + name)) || [];
+    }
 
-  function saveData(name, data) {
-    localStorage.setItem("miss_" + name, JSON.stringify(data));
-  }
+    function saveData(name, data) {
+      localStorage.setItem("miss_" + name, JSON.stringify(data));
+    }
 
-  function render(name) {
-    const data = loadData(name);
-    document.getElementById("count" + name).innerText = data.length;
+    function render(name) {
+      const data = loadData(name);
+      document.getElementById("count" + name).innerText = data.length;
 
-    const list = document.getElementById("list" + name);
-    list.innerHTML = "";
-    data.forEach(reason => {
-      const li = document.createElement("li");
-      li.innerText = reason;
-      list.appendChild(li);
-    });
-  }
+      const list = document.getElementById("list" + name);
+      list.innerHTML = "";
+      data.forEach(reason => {
+        const li = document.createElement("li");
+        li.innerText = reason;
+        list.appendChild(li);
+      });
+    }
 
-  function addReason(name) {
-    const reason = prompt(`Why do you miss them? 💕`);
-    if (!reason) return;
+    function addReason(name, button) {
+      const reason = prompt(`Why do you miss them? 💕`);
+      if (!reason) return;
 
-    const data = loadData(name);
-    data.push(reason);
-    saveData(name, data);
-    render(name);
-  }
+      const data = loadData(name);
+      data.push(reason);
+      saveData(name, data);
+      render(name);
 
-  render("Pachu");
-  render("Hannu");
-</script>
+      // Trigger heart animation
+      createHeart(button);
+    }
+
+    function createHeart(button) {
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.innerText = "💖";
+
+      // Random x position inside button
+      const x = Math.random() * (button.offsetWidth - 20);
+      heart.style.left = `${x}px`;
+      heart.style.top = `-10px`;
+
+      button.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1000);
+    }
+
+    // Initial render
+    render("Pachu");
+    render("Hannu");
+  </script>
 
 </body>
 </html>
