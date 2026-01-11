@@ -4,27 +4,33 @@
   <meta charset="UTF-8">
   <title>Pachu & Hannu 💕</title>
 
-    <!-- Google Font for heading -->
+  <!-- Google Font for heading -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
-  
- <style>
-    /* Body */
+
+  <style>
+    /* Body with gradient background */
     body {
       font-family: 'Comic Sans MS', cursive;
-      background: #ffccd9; /* soft pink */
+      background: linear-gradient(to bottom right, #ffccd9, #ffe6f0); /* soft gradient pink */
       text-align: center;
       padding: 30px;
       overflow-x: hidden;
     }
 
-    /* Heading box */
+    /* Heading box with pulse animation */
     .heading-box {
-      background: #ffd6e8; /* light pink */
+      background: #ffd6e8;
       display: inline-block;
       padding: 20px 30px;
       border-radius: 20px;
       margin-bottom: 40px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     .heading-box h1 {
@@ -33,6 +39,8 @@
       font-size: 36px;
       margin: 0;
     }
+
+    /* Person cards */
     .person {
       background: white;
       padding: 20px;
@@ -41,15 +49,16 @@
       max-width: 400px;
       border-radius: 20px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
     }
 
     .person:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
 
-    /* Circular image */
+    /* Circular images */
     .person img {
       width: 150px;
       height: 150px;
@@ -59,6 +68,7 @@
       margin-bottom: 15px;
     }
 
+    /* Buttons */
     button {
       background: #ff8fab;
       border: none;
@@ -68,15 +78,17 @@
       cursor: pointer;
       color: white;
       margin-bottom: 10px;
-      transition: background 0.2s;
+      transition: background 0.2s, box-shadow 0.2s;
       position: relative;
       overflow: hidden;
     }
 
     button:hover {
       background: #ff5c8a;
+      box-shadow: 0 0 15px rgba(255,140,171,0.6);
     }
 
+    /* List of reasons */
     ul {
       text-align: left;
       max-height: 150px;
@@ -88,11 +100,20 @@
       margin-bottom: 5px;
     }
 
-    /* Heart animation */
+    /* Rounded scrollbar */
+    ul::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ul::-webkit-scrollbar-thumb {
+      background: #ff8fab;
+      border-radius: 10px;
+    }
+
+    /* Heart/confetti animation */
     .heart {
       position: absolute;
       font-size: 24px;
-      color: #ff3c7e;
       pointer-events: none;
       animation: floatUp 1s ease-out forwards;
     }
@@ -107,12 +128,11 @@
         transform: translateY(-100px) scale(1.5);
       }
     }
-
-  
   </style>
 </head>
 <body>
-  
+
+  <!-- Heading -->
   <div class="heading-box">
     <h1>Pachuttan + Hannu = WWE Wrestlemania 💖</h1>
   </div>
@@ -136,55 +156,66 @@
   </div>
 
   <script>
+    // Load data from localStorage
     function loadData(name) {
       return JSON.parse(localStorage.getItem("miss_" + name)) || [];
     }
 
+    // Save data to localStorage
     function saveData(name, data) {
       localStorage.setItem("miss_" + name, JSON.stringify(data));
     }
 
+    // Render counts and reason lists
     function render(name) {
       const data = loadData(name);
       document.getElementById("count" + name).innerText = data.length;
 
       const list = document.getElementById("list" + name);
       list.innerHTML = "";
-      data.forEach(reason => {
+      data.forEach(item => {
         const li = document.createElement("li");
-        li.innerText = reason;
+        li.innerText = item;
         list.appendChild(li);
       });
     }
 
+    // Add reason & show hearts
     function addReason(name, button) {
       const reason = prompt(`Why do you miss them? 💕`);
       if (!reason) return;
 
+      // Add date & time
+      const now = new Date().toLocaleString();
+      const entry = `${reason} (${now})`;
+
       const data = loadData(name);
-      data.push(reason);
+      data.push(entry);
       saveData(name, data);
       render(name);
 
-      // Trigger heart animation
-      createHeart(button);
+      // Trigger multiple hearts/confetti
+      for (let i = 0; i < 5; i++) {
+        createHeart(button);
+      }
     }
 
+    // Heart animation function
     function createHeart(button) {
       const heart = document.createElement("span");
       heart.className = "heart";
-      heart.innerText = "💖";
 
-      // Random x position inside button
+      // Random heart emoji
+      const hearts = ["💖","💗","💘","💞","💕"];
+      heart.innerText = hearts[Math.floor(Math.random()*hearts.length)];
+
       const x = Math.random() * (button.offsetWidth - 20);
       heart.style.left = `${x}px`;
       heart.style.top = `-10px`;
 
       button.appendChild(heart);
 
-      setTimeout(() => {
-        heart.remove();
-      }, 1000);
+      setTimeout(() => heart.remove(), 1000);
     }
 
     // Initial render
