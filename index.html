@@ -10,11 +10,11 @@ html, body {
   font-family:'Comic Sans MS', cursive;
   min-height:100vh;
   overflow-x:hidden;
-  background: linear-gradient(135deg,#ffccd9,#ffe6f0,#ffc0cb);
+  background: linear-gradient(135deg,#ffe6f0,#fff0f5,#ffdce6); /* lighter pink gradient */
   position: relative;
 }
 
-/* Doodle background on top of pink gradient but below all elements */
+/* Doodle background on top of gradient but below all elements */
 #doodleBg {
   position: fixed;
   top: 0;
@@ -22,23 +22,9 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1; /* above gradient, below everything else */
-  opacity: 0.3; /* subtle */
-  pointer-events: none; /* allow clicks to pass through */
-}
-
-/* Clouds */
-.cloud{
-  position: fixed;
-  width:200px;
-  height:auto;
-  opacity:0.5;
-  z-index:2;
-  animation: moveCloud linear infinite;
-}
-@keyframes moveCloud{
-  0% {transform: translateX(-300px);}
-  100% {transform: translateX(120vw);}
+  z-index: 1;
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 /* Content wrapper */
@@ -196,7 +182,7 @@ button:hover{
 
 /* Mobile adjustments */
 @media(max-width:500px){
-  .heading-box h1{font-size:44px; padding:30px; margin-bottom:15px;}
+  .heading-box h1{font-size:50px; padding:30px; margin-bottom:20px;}
   .person{
     width:100%;
     max-width:100%;
@@ -204,15 +190,17 @@ button:hover{
     padding:50px 35px;
   }
   .person img{width:220px; height:220px;}
-  button{font-size:20px; padding:20px 45px;}
+  button{font-size:22px; padding:22px 45px;}
   #totalMisses{
-    font-size:26px;
+    font-size:28px;
     width:95%;
     padding:30px;
     margin-bottom:30px;
   }
+  .person h2{font-size:28px;}
+  .person p{font-size:22px;}
   .notebook-container{flex-direction:column; align-items:center;}
-  .notebook{width:90%; max-height:450px; margin-bottom:25px; padding:35px;}
+  .notebook{width:90%; max-height:450px; margin-bottom:25px; padding:35px; font-size:20px;}
 
   /* Bigger sparkles on mobile */
   .sparkle{
@@ -232,11 +220,6 @@ button:hover{
 
 <!-- Doodle on top of gradient but beneath elements -->
 <img src="doodle.png" id="doodleBg">
-
-<!-- Clouds -->
-<img src="clouds.png" class="cloud" style="top:50px; animation-duration:35s;">
-<img src="clouds.png" class="cloud" style="top:150px; animation-duration:45s;">
-<img src="clouds.png" class="cloud" style="top:250px; animation-duration:50s;">
 
 <div class="content">
   <div class="heading-box">
