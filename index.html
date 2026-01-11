@@ -2,42 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GIFT</title>
+  <title>Pachu & Hannu 💕</title>
 
   <!-- Google Font for heading -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
   <style>
     /* --- Base --- */
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
       font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
       text-align: center;
-      padding: 20px;
       overflow-x: hidden;
-      margin: 0;
     }
 
-    .content { position: relative; z-index: 2; }
-
-    /* --- Sparkles --- */
-    .sparkle {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background: #ff4c8a;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      opacity: 0.8;
-      pointer-events: none;
-      animation: sparkleMove 3s linear infinite;
-      box-shadow: 0 0 6px #ff4c8a, 0 0 12px #ff7bac;
-      z-index: 0;
-    }
-
-    @keyframes sparkleMove {
-      0% { transform: translateY(0) scale(1); opacity: 0.8; }
-      50% { transform: translateY(-50px) scale(1.2); opacity: 1; }
-      100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    .content {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* fill screen vertically */
     }
 
     /* --- Heading --- */
@@ -46,8 +34,9 @@
       display: inline-block;
       padding: 25px 35px;
       border-radius: 20px;
-      margin-bottom: 20px;
+      margin: 20px auto 10px auto;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: heartbeat 1s infinite;
     }
 
     .heading-box h1 {
@@ -57,17 +46,25 @@
       margin: 0;
     }
 
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+    }
+
     /* --- Total Missed --- */
     #totalMisses {
       font-family: 'Comic Sans MS', cursive;
       color: #fff;
       background: #ff85ab;
       display: block;
-      width: 280px;
-      margin: 20px auto 30px auto;
-      padding: 12px 20px;
+      width: 90%;
+      max-width: 350px;
+      margin: 10px auto;
+      padding: 15px 20px;
       border-radius: 20px;
-      font-size: 18px;
+      font-size: 20px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
     }
@@ -75,14 +72,18 @@
     /* --- Person Cards --- */
     .person {
       background: white;
-      padding: 25px;
-      margin: 25px auto;
-      width: 90%;
-      max-width: 450px;
+      padding: 20px;
+      margin: 10px auto 0 auto;
+      width: 95%;
+      flex-grow: 1; /* fill remaining screen vertically */
       border-radius: 20px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
       transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .person:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
@@ -112,7 +113,7 @@
 
     button:hover { background: #ff5c8a; box-shadow: 0 0 15px rgba(255,140,171,0.6); }
 
-    ul { text-align: left; max-height: 150px; overflow-y: auto; padding-left: 20px; }
+    ul { text-align: left; max-height: 150px; overflow-y: auto; padding-left: 20px; width: 100%; }
 
     li { margin-bottom: 5px; }
 
@@ -140,10 +141,9 @@
     /* --- Responsive --- */
     @media (max-width: 500px) {
       .heading-box h1 { font-size: 32px; }
-      .person { width: 95%; padding: 20px; }
       .person img { width: 140px; height: 140px; }
       button { font-size: 15px; padding: 10px 20px; }
-      #totalMisses { width: 90%; font-size: 17px; padding: 12px 20px; }
+      #totalMisses { font-size: 18px; padding: 12px 20px; }
       .cloud { width: 180px; }
     }
   </style>
