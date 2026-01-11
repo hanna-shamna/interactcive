@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>GIFT</title>
+<title>Pachu & Hannu 💕</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 <style>
 html, body {
@@ -234,27 +234,27 @@ ul{ display:none; }
 const milestones=[10,25,50,100,200,300,500];
 let openNotebookName = null;
 
+// Load and Save
 function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
 function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
 
+// Render person and total
 function render(name){
   const data=loadData(name);
   document.getElementById("count"+name).innerText=data.length;
   updateTotalMisses();
-  // Auto-update notebook if open
-  if(openNotebookName === name){
-    const list = document.getElementById("notebookList");
-    list.innerHTML='';
-    data.forEach(item=>{const li=document.createElement('li'); li.innerText=item; list.appendChild(li);});
-  }
+  // If notebook open, refresh content
+  if(openNotebookName===name) showNotebook(name);
 }
 
+// Total Missed + milestone
 function updateTotalMisses(){
   const total=loadData("Pachu").length+loadData("Hannu").length;
   document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
   if(milestones.includes(total)) celebrate();
 }
 
+// Add Reason
 function addReason(name, button){
   const reason = prompt("Why do you miss them? 💕");
   if(!reason) return;
@@ -262,12 +262,12 @@ function addReason(name, button){
   const entry = `${reason} (${now})`;
   const data = loadData(name);
   data.push(entry);
-  saveData(name, data);
+  saveData(name,data);
   render(name);
-
   for(let i=0;i<5;i++){ createHeart(button); }
 }
 
+// Heart Animation
 function createHeart(button){
   const heart=document.createElement("span"); heart.className="heart";
   const hearts=["💖","💗","💘","💞","💕"];
@@ -277,6 +277,7 @@ function createHeart(button){
   setTimeout(()=>heart.remove(),1000);
 }
 
+// Celebration
 function celebrate(){
   for(let i=0;i<50;i++){
     const c=document.createElement('div');
@@ -336,4 +337,3 @@ render("Pachu"); render("Hannu");
 </script>
 </body>
 </html>
-
