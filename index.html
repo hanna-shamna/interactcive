@@ -198,6 +198,12 @@ button:hover{
   }
   .notebook-container{flex-direction:column; align-items:center;}
   .notebook{width:90%; max-height:450px; margin-bottom:25px; padding:30px;}
+
+  /* Bigger sparkles on mobile */
+  .sparkle{
+    width:14px;
+    height:14px;
+  }
 }
 </style>
 </head>
@@ -304,7 +310,8 @@ function createTrailSparkle(x,y){
   const trail=document.createElement('div'); trail.className='sparkle';
   trail.style.left=x+'px';
   trail.style.top=y+'px';
-  trail.style.width='6px'; trail.style.height='6px';
+  trail.style.width = window.innerWidth <= 500 ? '14px' : '6px';
+  trail.style.height = window.innerWidth <= 500 ? '14px' : '6px';
   trail.style.opacity='0.8';
   trail.style.transition='transform 0.5s, opacity 0.5s';
   trail.style.zIndex=10;
