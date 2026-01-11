@@ -10,7 +10,6 @@ html, body {
   font-family:'Comic Sans MS', cursive;
   min-height:100vh;
   overflow-x:hidden;
-  scroll-behavior:smooth;
   background: linear-gradient(135deg,#ffccd9,#ffe6f0,#ffc0cb);
   position: relative;
 }
@@ -31,14 +30,14 @@ html, body {
 
 .content{
   position: relative;
-  z-index: 2;
-  padding: 20px;
-  text-align: center;
+  z-index:2;
+  padding:20px;
+  text-align:center;
 }
 
 /* Heading */
 .heading-box{
-  background: #ff5c8a;
+  background:#ff5c8a;
   display:inline-block;
   padding:25px 35px;
   border-radius:20px;
@@ -52,7 +51,7 @@ html, body {
   100% {transform: translateY(0) scale(1);}
 }
 .heading-box h1{
-  font-family: 'Dancing Script', cursive;
+  font-family:'Dancing Script', cursive;
   color:#fff;
   font-size:36px;
   margin:0;
@@ -120,7 +119,6 @@ button:hover{
   background:#ff5c8a;
   box-shadow:0 0 15px rgba(255,140,171,0.6);
 }
-ul{ display:none; }
 .heart{
   position:absolute;
   font-size:24px;
@@ -132,24 +130,25 @@ ul{ display:none; }
   100% {opacity:0; transform:translateY(-100px) scale(1.5);}
 }
 
-/* Notebook popup */
+/* Notebook style areas */
+.notebook-container{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-around;
+  margin:30px auto 50px auto;
+}
 .notebook{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
   background:#fff9e6;
   border:2px dashed #ff8fab;
   border-radius:15px;
   padding:20px;
-  max-width:90%;
-  width:400px;
-  max-height:60%;
+  width:45%;
+  min-width:250px;
+  max-height:300px;
   overflow-y:auto;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
-  z-index:9999;
-  display:none;
   font-family:'Comic Sans MS', cursive;
+  margin-bottom:20px;
 }
 .notebook h3{
   margin-top:0;
@@ -159,11 +158,6 @@ ul{ display:none; }
 .notebook ul{
   padding-left:20px;
   text-align:left;
-}
-.notebook button{
-  background:#ff5c8a;
-  margin-top:15px;
-  font-family:'Comic Sans MS', cursive;
 }
 
 /* Angular pink background sparkles */
@@ -190,6 +184,7 @@ ul{ display:none; }
   .person img{width:140px;height:140px;}
   button{font-size:16px;padding:12px 25px;}
   #totalMisses{font-size:18px;padding:15px 20px;width:95%;}
+  .notebook{width:90%; margin-bottom:20px;}
 }
 </style>
 </head>
@@ -212,7 +207,6 @@ ul{ display:none; }
     <h2>Pachu 🐥</h2>
     <p>Times missed: <span id="countPachu">0</span></p>
     <button onclick="addReason('Pachu', this)">I miss you 🥺</button>
-    <button onclick="showNotebook('Pachu')">Click Here 📓</button>
   </div>
 
   <div class="person">
@@ -220,41 +214,51 @@ ul{ display:none; }
     <h2>Hannu 🐻</h2>
     <p>Times missed: <span id="countHannu">0</span></p>
     <button onclick="addReason('Hannu', this)">I miss you 🥺</button>
-    <button onclick="showNotebook('Hannu')">Click Here 📓</button>
   </div>
 </div>
 
-<div id="notebook" class="notebook">
-  <h3 id="notebookTitle">Reasons</h3>
-  <ul id="notebookList"></ul>
-  <button onclick="closeNotebook()">Close</button>
+<!-- Notebook style areas -->
+<div class="notebook-container">
+  <div class="notebook" id="notebookPachu">
+    <h3>Pachu's Reasons 💖</h3>
+    <ul id="listPachu"></ul>
+  </div>
+
+  <div class="notebook" id="notebookHannu">
+    <h3>Hannu's Reasons 💖</h3>
+    <ul id="listHannu"></ul>
+  </div>
 </div>
 
 <script>
 const milestones=[10,25,50,100,200,300,500];
-let openNotebookName = null;
 
-// Load and Save
+// Load & save
 function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
 function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
 
-// Render person and total
+// Render function updates counts and notebook areas
 function render(name){
-  const data=loadData(name);
-  document.getElementById("count"+name).innerText=data.length;
+  const data = loadData(name);
+  document.getElementById("count"+name).innerText = data.length;
   updateTotalMisses();
-  // If notebook open, refresh content
-  if(openNotebookName===name) showNotebook(name);
+  // Update notebook areas
+  const list = document.getElementById("list"+name);
+  list.innerHTML = '';
+  data.forEach(item => {
+    const li = document.createElement('li');
+    li.innerText = item;
+    list.appendChild(li);
+  });
 }
 
-// Total Missed + milestone
 function updateTotalMisses(){
-  const total=loadData("Pachu").length+loadData("Hannu").length;
-  document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
+  const total = loadData("Pachu").length + loadData("Hannu").length;
+  document.getElementById("totalMisses").innerText = `Total Missed Each Other: ${total} 💕`;
   if(milestones.includes(total)) celebrate();
 }
 
-// Add Reason
+// Add reason
 function addReason(name, button){
   const reason = prompt("Why do you miss them? 💕");
   if(!reason) return;
@@ -264,15 +268,16 @@ function addReason(name, button){
   data.push(entry);
   saveData(name,data);
   render(name);
+
+  // Heart animation
   for(let i=0;i<5;i++){ createHeart(button); }
 }
 
-// Heart Animation
 function createHeart(button){
-  const heart=document.createElement("span"); heart.className="heart";
+  const heart = document.createElement("span"); heart.className="heart";
   const hearts=["💖","💗","💘","💞","💕"];
-  heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
-  const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
+  heart.innerText = hearts[Math.floor(Math.random()*hearts.length)];
+  const x = Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
   button.appendChild(heart);
   setTimeout(()=>heart.remove(),1000);
 }
@@ -298,17 +303,6 @@ function celebrate(){
     },20);
   }
 }
-
-// Notebook
-function showNotebook(name){
-  openNotebookName = name;
-  const data = loadData(name);
-  const list=document.getElementById("notebookList"); list.innerHTML='';
-  data.forEach(item => { const li=document.createElement('li'); li.innerText=item; list.appendChild(li); });
-  document.getElementById("notebookTitle").innerText = `${name}'s Reasons 💖`;
-  document.getElementById("notebook").style.display='block';
-}
-function closeNotebook(){document.getElementById("notebook").style.display='none'; openNotebookName=null;}
 
 // Angular background sparkles
 for(let i=0;i<25;i++){
