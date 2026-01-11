@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pachu & Hannu 💕</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: #ffeef4;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #ff5c8a;
+    }
+
+    .person {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background: #ff8fab;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+    }
+
+    button:hover {
+      background: #ff5c8a;
+    }
+
+    ul {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<h1>When Pachu & Hannu Miss Each Other 💖</h1>
+
+<div class="person">
+  <h2>Pachu 🐥</h2>
+  <p>Times missed: <span id="countPachu">0</span></p>
+  <button onclick="addReason('Pachu')">I miss you 🥺</button>
+  <ul id="listPachu"></ul>
+</div>
+
+<div class="person">
+  <h2>Hannu 🐻</h2>
+  <p>Times missed: <span id="countHannu">0</span></p>
+  <button onclick="addReason('Hannu')">I miss you 🥺</button>
+  <ul id="listHannu"></ul>
+</div>
+
+<script>
+  function loadData(name) {
+    return JSON.parse(localStorage.getItem("miss_" + name)) || [];
+  }
+
+  function saveData(name, data) {
+    localStorage.setItem("miss_" + name, JSON.stringify(data));
+  }
+
+  function render(name) {
+    const data = loadData(name);
+    document.getElementById("count" + name).innerText = data.length;
+
+    const list = document.getElementById("list" + name);
+    list.innerHTML = "";
+    data.forEach(reason => {
+      const li = document.createElement("li");
+      li.innerText = reason;
+      list.appendChild(li);
+    });
+  }
+
+  function addReason(name) {
+    const reason = prompt(`Why do you miss them? 💕`);
+    if (!reason) return;
+
+    const data = loadData(name);
+    data.push(reason);
+    saveData(name, data);
+    render(name);
+  }
+
+  render("Pachu");
+  render("Hannu");
+</script>
+
+</body>
+</html>
