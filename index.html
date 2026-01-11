@@ -117,6 +117,35 @@
       border-radius: 10px;
     }
 
+    /* Sparkle container */
+.sparkle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: sparkleMove 3s linear infinite;
+  box-shadow: 0 0 8px white, 0 0 15px pink;
+}
+
+@keyframes sparkleMove {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50px) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+
     /* Heart/confetti animation */
     .heart {
       position: absolute;
@@ -229,6 +258,22 @@
     render("Pachu");
     render("Hannu");
   </script>
+  
+<script>
+  const sparkleCount = 30; // number of sparkles
+
+  for (let i = 0; i < sparkleCount; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+
+    // random starting position
+    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+    sparkle.style.animationDelay = (Math.random() * 5) + 's'; // stagger animation
+
+    document.body.appendChild(sparkle);
+  }
+</script>
 
 </body>
 </html>
