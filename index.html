@@ -1,201 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GIFT</title>
+<meta charset="UTF-8">
+<title>Pachu & Hannu 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin:0;
+  padding:0;
+  font-family: 'Comic Sans MS', cursive;
+  background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
+  min-height:100vh;
+  overflow-x:hidden;
+  scroll-behavior: smooth;
+  position: relative;
+}
+.content{
+  position: relative;
+  z-index: 2;
+  padding: 30px 20px;
+  text-align: center;
+}
 
-  <!-- Google Font for heading -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+/* Floating heading */
+.heading-box{
+  background: #ff5c8a;
+  display: inline-block;
+  padding: 25px 35px;
+  border-radius: 20px;
+  margin: 20px auto;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  animation: floatHeading 4s ease-in-out infinite;
+}
+@keyframes floatHeading{
+  0% {transform: translateY(0) scale(1);}
+  50% {transform: translateY(-6px) scale(1.02);}
+  100% {transform: translateY(0) scale(1);}
+}
+.heading-box h1{
+  font-family: 'Dancing Script', cursive;
+  color: #fff;
+  font-size: 36px;
+  margin:0;
+}
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Comic Sans MS', cursive; /* default font for all text */
-      background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
-      min-height: 100vh;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
+/* Total Missed */
+#totalMisses{
+  color:#fff;
+  background:#ff85ab;
+  display:block;
+  width:90%;
+  max-width:300px;
+  margin:15px auto 30px auto;
+  padding:15px 20px;
+  border-radius:20px;
+  font-size:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  text-align:center;
+}
 
-    .content {
-      position: relative;
-      z-index: 2;
-      padding: 30px 20px;
-    }
+/* Person Cards */
+.person{
+  background:white;
+  padding:20px;
+  margin:20px auto;
+  width:90%;
+  max-width:350px;
+  border-radius:20px;
+  box-shadow:0 5px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-family:'Comic Sans MS', cursive;
+}
+.person:hover{
+  transform: scale(1.03);
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+.person img{
+  width:140px;
+  height:140px;
+  object-fit: cover;
+  border-radius:50%;
+  border:4px solid #ff8fab;
+  margin-bottom:15px;
+}
+button{
+  background:#ff8fab;
+  border:none;
+  padding:12px 25px;
+  border-radius:20px;
+  font-size:16px;
+  cursor:pointer;
+  color:white;
+  margin-bottom:10px;
+  transition: background 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow:hidden;
+  font-family:'Comic Sans MS', cursive;
+}
+button:hover{
+  background:#ff5c8a;
+  box-shadow:0 0 15px rgba(255,140,171,0.6);
+}
+ul{ display:none; }
+.heart{
+  position:absolute;
+  font-size:24px;
+  pointer-events:none;
+  animation: floatUp 1s ease-out forwards;
+}
+@keyframes floatUp{
+  0% {opacity:1; transform:translateY(0) scale(1);}
+  100% {opacity:0; transform:translateY(-100px) scale(1.5);}
+}
 
-    /* Soft floating heading */
-    .heading-box {
-      background: #ff5c8a;
-      display: inline-block;
-      padding: 25px 35px;
-      border-radius: 20px;
-      margin: 20px auto;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      animation: floatHeading 4s ease-in-out infinite;
-    }
+/* Notebook popup */
+.notebook{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background:#fff9e6;
+  border:2px dashed #ff8fab;
+  border-radius:15px;
+  padding:20px;
+  max-width:90%;
+  width:400px;
+  max-height:60%;
+  overflow-y:auto;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  z-index:9999;
+  display:none;
+  font-family:'Comic Sans MS', cursive;
+}
+.notebook h3{
+  margin-top:0;
+  color:#ff5c8a;
+  text-align:center;
+}
+.notebook ul{
+  padding-left:20px;
+  text-align:left;
+}
+.notebook button{
+  background:#ff5c8a;
+  margin-top:15px;
+  font-family:'Comic Sans MS', cursive;
+}
 
-    @keyframes floatHeading {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-6px) scale(1.02); }
-      100% { transform: translateY(0) scale(1); }
-    }
+/* Angular pink background sparkles */
+.sparkle{
+  position: fixed;
+  width:8px;
+  height:8px;
+  background:#ff4c8a;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  opacity:0.8;
+  z-index:0;
+  pointer-events:none;
+  animation: sparkleAnim 6s linear infinite;
+}
+@keyframes sparkleAnim{
+  0% {transform: translateY(0) rotate(0deg); opacity:0.8;}
+  50% {transform: translateY(-30px) rotate(180deg); opacity:0.4;}
+  100% {transform: translateY(0) rotate(360deg); opacity:0.8;}
+}
 
-    .heading-box h1 {
-      font-family: 'Dancing Script', cursive; /* only heading font */
-      color: #fff;
-      font-size: 36px;
-      margin: 0;
-    }
+/* Clouds */
+.cloud{
+  position: fixed;
+  width:250px;
+  height:auto;
+  opacity:0.5;
+  z-index:0;
+  animation: moveCloud linear infinite;
+}
+@keyframes moveCloud{
+  0% {transform: translateX(-300px);}
+  100% {transform: translateX(120vw);}
+}
 
-    /* Total Missed Box */
-    #totalMisses {
-      color: #fff;
-      background: #ff85ab;
-      display: block;
-      width: 90%;
-      max-width: 300px;
-      margin: 15px auto 30px auto;
-      padding: 15px 20px;
-      border-radius: 20px;
-      font-size: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    /* Person Cards */
-    .person {
-      background: white;
-      padding: 20px;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 350px; 
-      border-radius: 20px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Comic Sans MS', cursive; /* force Comic Sans for cards */
-    }
-
-    .person:hover {
-      transform: scale(1.03);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    .person img {
-      width: 140px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid #ff8fab;
-      margin-bottom: 15px;
-    }
-
-    button {
-      background: #ff8fab;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 20px;
-      font-size: 16px;
-      cursor: pointer;
-      color: white;
-      margin-bottom: 10px;
-      transition: background 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-      font-family: 'Comic Sans MS', cursive; /* buttons in Comic Sans */
-    }
-
-    button:hover {
-      background: #ff5c8a;
-      box-shadow: 0 0 15px rgba(255,140,171,0.6);
-    }
-
-    ul { display: none; }
-
-    .heart {
-      position: absolute;
-      font-size: 24px;
-      pointer-events: none;
-      animation: floatUp 1s ease-out forwards;
-    }
-
-    @keyframes floatUp {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
-    }
-
-    /* Notebook popup */
-    .notebook {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff9e6;
-      border: 2px dashed #ff8fab;
-      border-radius: 15px;
-      padding: 20px;
-      max-width: 90%;
-      width: 400px;
-      max-height: 60%;
-      overflow-y: auto;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      z-index: 9999;
-      display: none;
-      font-family: 'Comic Sans MS', cursive; /* notebook in Comic Sans */
-    }
-
-    .notebook h3 {
-      margin-top: 0;
-      color: #ff5c8a;
-      text-align: center;
-    }
-
-    .notebook ul {
-      padding-left: 20px;
-      text-align: left;
-    }
-
-    .notebook button {
-      background: #ff5c8a;
-      margin-top: 15px;
-      font-family: 'Comic Sans MS', cursive;
-    }
-
-    /* Angular pink background sparkles */
-    .sparkle {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      background: #ff4c8a;
-      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-      opacity: 0.8;
-      z-index: 0;
-      pointer-events: none;
-      animation: sparkleAnim 6s linear infinite;
-    }
-
-    @keyframes sparkleAnim {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
-      50% { transform: translateY(-30px) rotate(180deg); opacity: 0.4; }
-      100% { transform: translateY(0) rotate(360deg); opacity: 0.8; }
-    }
-
-    /* Responsive */
-    @media (max-width: 500px) {
-      .heading-box h1 { font-size: 32px; }
-      .person img { width: 120px; height: 120px; }
-      button { font-size: 15px; padding: 10px 20px; }
-      #totalMisses { font-size: 18px; padding: 12px 20px; }
-    }
-
-  </style>
+/* Responsive */
+@media(max-width:500px){
+  .heading-box h1{font-size:32px;}
+  .person img{width:120px;height:120px;}
+  button{font-size:15px;padding:10px 20px;}
+  #totalMisses{font-size:18px;padding:12px 20px;}
+  .cloud{width:180px;}
+}
+</style>
 </head>
 <body>
+
+<!-- Clouds -->
+<img src="clouds.png" class="cloud" style="top:50px; animation-duration:35s;">
+<img src="clouds.png" class="cloud" style="top:150px; animation-duration:45s;">
+<img src="clouds.png" class="cloud" style="top:250px; animation-duration:50s;">
 
 <div class="content">
   <div class="heading-box">
@@ -221,7 +225,6 @@
   </div>
 </div>
 
-<!-- Notebook popup -->
 <div id="notebook" class="notebook">
   <h3 id="notebookTitle">Reasons</h3>
   <ul id="notebookList"></ul>
@@ -229,7 +232,7 @@
 </div>
 
 <script>
-const milestones = [10,25,50,100,200,300,500];
+const milestones=[10,25,50,100,200,300,500];
 
 function loadData(name){return JSON.parse(localStorage.getItem("miss_"+name))||[];}
 function saveData(name,data){localStorage.setItem("miss_"+name,JSON.stringify(data));}
@@ -238,18 +241,25 @@ function render(name){
   const data=loadData(name);
   document.getElementById("count"+name).innerText=data.length;
   updateTotalMisses();
+  // auto update notebook if open
+  if(document.getElementById("notebook").style.display==='block'){
+    const title=document.getElementById("notebookTitle").innerText;
+    if(title.includes(name)){
+      const list=document.getElementById("notebookList");
+      list.innerHTML='';
+      data.forEach(item=>{const li=document.createElement('li'); li.innerText=item; list.appendChild(li);});
+    }
+  }
 }
 
 function updateTotalMisses(){
   const total=loadData("Pachu").length+loadData("Hannu").length;
   document.getElementById("totalMisses").innerText=`Total Missed Each Other: ${total} 💕`;
-  if(milestones.includes(total)){
-    celebrate();
-  }
+  if(milestones.includes(total)) celebrate();
 }
 
 function addReason(name,button){
-  const reason=prompt("Why do you miss them? 💕"); 
+  const reason=prompt("Why do you miss them? 💕");
   if(!reason) return;
   const now=new Date().toLocaleString();
   const entry=`${reason} (${now})`;
@@ -263,24 +273,20 @@ function createHeart(button){
   const hearts=["💖","💗","💘","💞","💕"];
   heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
   const x=Math.random()*(button.offsetWidth-20); heart.style.left=`${x}px`; heart.style.top=`-10px`;
-  button.appendChild(heart); setTimeout(()=>heart.remove(),1000);
+  button.appendChild(heart);
+  setTimeout(()=>heart.remove(),1000);
 }
 
-// Milestone celebration
 function celebrate(){
-  for(let i=0;i<100;i++){
+  for(let i=0;i<50;i++){
     const c=document.createElement('div');
-    c.style.position='fixed';
-    c.style.width='10px'; c.style.height='10px';
+    c.style.position='fixed'; c.style.width='10px'; c.style.height='10px';
     c.style.background=['#ff4c8a','#ff85ab','#ffc0cb','#ff7bac'][Math.floor(Math.random()*4)];
     c.style.left=Math.random()*window.innerWidth+'px';
     c.style.top=Math.random()*window.innerHeight+'px';
-    c.style.opacity=0.9;
-    c.style.borderRadius='50%';
-    c.style.zIndex=9999;
+    c.style.opacity=0.9; c.style.borderRadius='50%'; c.style.zIndex=9999;
     document.body.appendChild(c);
-    const dx=(Math.random()-0.5)*10;
-    const dy=(Math.random()-0.5)*10;
+    const dx=(Math.random()-0.5)*10; const dy=(Math.random()-0.5)*10;
     let t=0;
     const anim=setInterval(()=>{
       t++;
@@ -292,22 +298,17 @@ function celebrate(){
   }
 }
 
-// Notebook popup
+// Notebook
 function showNotebook(name){
-  const data = loadData(name);
-  const list = document.getElementById("notebookList");
-  list.innerHTML = '';
-  data.forEach(item => {
-    const li=document.createElement('li'); li.innerText = item; list.appendChild(li);
-  });
-  document.getElementById("notebookTitle").innerText = `${name}'s Reasons 💖`;
+  const data=loadData(name);
+  const list=document.getElementById("notebookList"); list.innerHTML='';
+  data.forEach(item=>{const li=document.createElement('li'); li.innerText=item; list.appendChild(li);});
+  document.getElementById("notebookTitle").innerText=`${name}'s Reasons 💖`;
   document.getElementById("notebook").style.display='block';
 }
-function closeNotebook(){
-  document.getElementById("notebook").style.display='none';
-}
+function closeNotebook(){document.getElementById("notebook").style.display='none';}
 
-// Angular pink background sparkles
+// Angular background sparkles
 for(let i=0;i<25;i++){
   const s=document.createElement('div'); s.className='sparkle';
   s.style.left=Math.random()*window.innerWidth+'px';
@@ -317,9 +318,8 @@ for(let i=0;i<25;i++){
 }
 
 // Mouse trailing sparkles
-document.addEventListener('mousemove', function(e){
-  const trail=document.createElement('div'); 
-  trail.className='sparkle';
+document.addEventListener('mousemove',function(e){
+  const trail=document.createElement('div'); trail.className='sparkle';
   trail.style.left=e.clientX+'px';
   trail.style.top=e.clientY+'px';
   trail.style.width='6px'; trail.style.height='6px';
@@ -333,6 +333,6 @@ document.addEventListener('mousemove', function(e){
 // Initial render
 render("Pachu"); render("Hannu");
 </script>
-
 </body>
 </html>
+
