@@ -8,15 +8,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
   <style>
+    /* --- Base --- */
     body {
       font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
       text-align: center;
-      padding: 30px;
+      padding: 20px;
       overflow-x: hidden;
+      margin: 0;
     }
 
-    /* Sparkles */
+    .content { position: relative; z-index: 2; }
+
+    /* --- Sparkles --- */
     .sparkle {
       position: fixed;
       width: 10px;
@@ -24,7 +28,7 @@
       background: #ff4c8a;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
       opacity: 0.8;
-      pointer-events: none; /* Fix scrolling */
+      pointer-events: none; /* Allows scrolling */
       animation: sparkleMove 3s linear infinite;
       box-shadow: 0 0 6px #ff4c8a, 0 0 12px #ff7bac;
       z-index: 0;
@@ -36,9 +40,7 @@
       100% { transform: translateY(-100px) scale(1); opacity: 0; }
     }
 
-    .content { position: relative; z-index: 2; }
-
-    /* Heading */
+    /* --- Heading --- */
     .heading-box {
       background: #ff5c8a;
       display: inline-block;
@@ -49,7 +51,7 @@
       animation: pulse 2s infinite;
     }
 
-    @keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
     .heading-box h1 {
       font-family: 'Dancing Script', cursive;
@@ -70,6 +72,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
+    /* --- Person Cards --- */
     .person {
       background: white;
       padding: 20px;
@@ -120,9 +123,9 @@
       animation: floatUp 1s ease-out forwards;
     }
 
-    @keyframes floatUp {0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-100px) scale(1.5);}}
+    @keyframes floatUp { 0% {opacity:1;transform:translateY(0) scale(1);} 100% {opacity:0;transform:translateY(-100px) scale(1.5);} }
 
-    /* Realistic cloud image */
+    /* --- Clouds --- */
     .cloud {
       position: absolute;
       width: 250px;
@@ -132,7 +135,16 @@
       animation: moveCloud linear infinite;
     }
 
-    @keyframes moveCloud {0%{transform:translateX(-300px);}100%{transform:translateX(120vw);}}
+    @keyframes moveCloud { 0% { transform: translateX(-300px); } 100% { transform: translateX(120vw); } }
+
+    /* --- Responsive --- */
+    @media (max-width: 500px) {
+      .heading-box h1 { font-size: 28px; }
+      .person img { width: 120px; height: 120px; }
+      button { font-size: 14px; padding: 8px 16px; }
+      .cloud { width: 180px; }
+    }
+
   </style>
 </head>
 <body>
@@ -141,6 +153,7 @@
   <div class="heading-box">
     <h1>Pachuttan + Hannu = WWE Wrestlemania 💖</h1>
   </div>
+
   <div id="totalMisses">Total Missed Each Other: 0 💕</div>
 
   <div class="person">
@@ -170,7 +183,7 @@
     document.getElementById("count"+name).innerText=data.length;
     const list=document.getElementById("list"+name);
     list.innerHTML="";
-    data.forEach(item=>{const li=document.createElement("li");li.innerText=item;list.appendChild(li);});
+    data.forEach(item=>{const li=document.createElement("li"); li.innerText=item; list.appendChild(li);});
     updateTotalMisses();
   }
 
@@ -216,13 +229,14 @@
     setTimeout(()=>trail.remove(),800);
   });
 
-  // Floating clouds using clouds.jpg
-  for(let i=0;i<10;i++){
+  // Floating clouds spaced out using clouds.png
+  const cloudCount = 6; // fewer clouds for more spacing
+  for(let i=0;i<cloudCount;i++){
     const cloud=document.createElement('img'); cloud.className='cloud';
-    cloud.src='clouds.jpg';
-    cloud.style.top=(Math.random()*document.body.scrollHeight)+'px';
-    cloud.style.animationDuration=(20+Math.random()*20)+'s';
-    cloud.style.left=(-200-Math.random()*300)+'px';
+    cloud.src='clouds.png';
+    cloud.style.top=(i*250 + Math.random()*150)+'px'; // vertical spacing
+    cloud.style.animationDuration=(25+Math.random()*20)+'s';
+    cloud.style.left=(-200 - Math.random()*500)+'px';
     document.body.appendChild(cloud);
   }
 </script>
