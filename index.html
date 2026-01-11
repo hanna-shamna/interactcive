@@ -2,41 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GIFT</title>
+  <title>Pachu & Hannu 💕</title>
 
   <!-- Google Font for heading -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
   <style>
-    /* --- Base --- */
     html, body {
-      height: 100%;
       margin: 0;
       padding: 0;
       font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(135deg, #ffccd9, #ffe6f0, #ffc0cb);
       text-align: center;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     .content {
       position: relative;
       z-index: 2;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; /* fill screen vertically */
+      padding: 30px 20px;
     }
 
-    /* --- Heading --- */
+    /* Heading */
     .heading-box {
       background: #ff5c8a;
       display: inline-block;
       padding: 25px 35px;
       border-radius: 20px;
-      margin: 20px auto 10px auto;
+      margin: 20px auto;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      animation: heartbeat 1s infinite;
+      animation: heartbeat 2s infinite; /* slower heartbeat */
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25%, 75% { transform: scale(1.08); } /* slower, subtle pulse */
+      50% { transform: scale(1); }
     }
 
     .heading-box h1 {
@@ -46,22 +48,15 @@
       margin: 0;
     }
 
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      25% { transform: scale(1.1); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.1); }
-    }
-
-    /* --- Total Missed --- */
+    /* Total Missed Box */
     #totalMisses {
       font-family: 'Comic Sans MS', cursive;
       color: #fff;
       background: #ff85ab;
       display: block;
       width: 90%;
-      max-width: 350px;
-      margin: 10px auto;
+      max-width: 300px;
+      margin: 15px auto 30px auto;
       padding: 15px 20px;
       border-radius: 20px;
       font-size: 20px;
@@ -69,13 +64,13 @@
       text-align: center;
     }
 
-    /* --- Person Cards --- */
+    /* Person Cards */
     .person {
       background: white;
       padding: 20px;
-      margin: 10px auto 0 auto;
-      width: 95%;
-      flex-grow: 1; /* fill remaining screen vertically */
+      margin: 20px auto;
+      width: 90%;
+      max-width: 350px; 
       border-radius: 20px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
       transition: transform 0.2s, box-shadow 0.2s;
@@ -86,11 +81,14 @@
       justify-content: center;
     }
 
-    .person:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    .person:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
 
     .person img {
-      width: 160px;
-      height: 160px;
+      width: 140px;
+      height: 140px;
       object-fit: cover;
       border-radius: 50%;
       border: 4px solid #ff8fab;
@@ -111,9 +109,18 @@
       overflow: hidden;
     }
 
-    button:hover { background: #ff5c8a; box-shadow: 0 0 15px rgba(255,140,171,0.6); }
+    button:hover {
+      background: #ff5c8a;
+      box-shadow: 0 0 15px rgba(255,140,171,0.6);
+    }
 
-    ul { text-align: left; max-height: 150px; overflow-y: auto; padding-left: 20px; width: 100%; }
+    ul {
+      text-align: left;
+      max-height: 150px;
+      overflow-y: auto;
+      padding-left: 20px;
+      width: 100%;
+    }
 
     li { margin-bottom: 5px; }
 
@@ -124,9 +131,12 @@
       animation: floatUp 1s ease-out forwards;
     }
 
-    @keyframes floatUp {0% {opacity:1; transform:translateY(0) scale(1);} 100% {opacity:0; transform:translateY(-100px) scale(1.5);} }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+    }
 
-    /* --- Clouds --- */
+    /* Clouds */
     .cloud {
       position: absolute;
       width: 250px;
@@ -136,12 +146,15 @@
       animation: moveCloud linear infinite;
     }
 
-    @keyframes moveCloud { 0% { transform: translateX(-300px); } 100% { transform: translateX(120vw); } }
+    @keyframes moveCloud {
+      0% { transform: translateX(-300px); }
+      100% { transform: translateX(120vw); }
+    }
 
-    /* --- Responsive --- */
+    /* Responsive */
     @media (max-width: 500px) {
       .heading-box h1 { font-size: 32px; }
-      .person img { width: 140px; height: 140px; }
+      .person img { width: 120px; height: 120px; }
       button { font-size: 15px; padding: 10px 20px; }
       #totalMisses { font-size: 18px; padding: 12px 20px; }
       .cloud { width: 180px; }
@@ -211,25 +224,7 @@
 
   render("Pachu"); render("Hannu");
 
-  // Background sparkles
-  for(let i=0;i<30;i++){
-    const sparkle=document.createElement('div'); sparkle.className='sparkle';
-    sparkle.style.left=Math.random()*window.innerWidth+'px';
-    sparkle.style.top=Math.random()*window.innerHeight+'px';
-    sparkle.style.animationDelay=(Math.random()*5)+'s';
-    document.body.appendChild(sparkle);
-  }
-
-  // Mouse trailing sparkles
-  document.addEventListener('mousemove',function(e){
-    const trail=document.createElement('div'); trail.className='sparkle';
-    trail.style.left=(e.clientX-5)+'px'; trail.style.top=(e.clientY-5)+'px';
-    trail.style.width='8px'; trail.style.height='8px'; trail.style.opacity='0.9';
-    trail.style.transition='opacity 0.8s, transform 0.8s'; document.body.appendChild(trail);
-    setTimeout(()=>trail.remove(),800);
-  });
-
-  // Floating clouds
+  // Clouds
   const cloudCount = 6;
   for(let i=0;i<cloudCount;i++){
     const cloud=document.createElement('img'); cloud.className='cloud';
